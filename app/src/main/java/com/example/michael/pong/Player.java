@@ -80,7 +80,7 @@ public class Player extends GameObject{
     {
         //move from current x,y to point 200,50
         int Xpoints[] = new int[16];
-        Xpoints[0] = 150;
+        Xpoints[0] = 80;
         Xpoints[1] = 80;
         Xpoints[2] = 160;
         Xpoints[3] = 160;
