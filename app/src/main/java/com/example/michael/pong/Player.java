@@ -121,7 +121,7 @@ public class Player extends GameObject{
         double deltaX =  Xpoints[countX] - sx;//800 - sx;
         double deltaY = Ypoints[countY] - sy;//L - sy;
         double angle = Math.atan2( deltaY, deltaX );
-        int speed = 4;
+        int speed = 6;
         if(Finished != true) {
             x += speed * Math.cos(angle);
             y += speed * Math.sin(angle);
@@ -132,6 +132,12 @@ public class Player extends GameObject{
             countY++;
             //System.out.println("MATCH!!!    " + countX);
         }
+        Canvas canvas = new Canvas();
+        if(countX == 1) {
+            //System.out.print("Here");
+            canvas.rotate(90, x + (115 / 2), y + (160 / 2));
+        }
+
         if(countX == 15)
             Finished = true;
 
@@ -154,4 +160,13 @@ public class Player extends GameObject{
     public void resetScore(){score = 0;}
     public int getX(){return x;}
     public int getY(){return y;}
+
+    public void setX(int ReaperX)
+    {
+        this.x = ReaperX;
+    }
+    public void setY(int ReaperY)
+    {
+        this.y = ReaperY;
+    }
 }

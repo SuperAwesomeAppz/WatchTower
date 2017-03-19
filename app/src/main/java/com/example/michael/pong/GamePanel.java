@@ -31,8 +31,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private bastion player;
     private Player player1;
     private Player bullet;
-    private int b;
-    private int c;
+    private int b = 500;
+    private int c = 200;
     private boolean done = true;
     private ArrayList<Player> ArrayOfReapers = new ArrayList<Player>();
     public static Canvas canvas;
@@ -80,6 +80,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         //players arguments are width of frame, height, number of frames, x and y coords
         //player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, 150, y);
         player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, 500, 200);
+        //player.setAlpha(50);
         int counter = 0;
         for(int i = 0; i < 12; i++) {
             if(i % 4 == 0)
@@ -166,23 +167,30 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             //System.out.println("Inside");
             int BastionX = player.getX();
             int BastionY = player.getY();
-            bullet = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, BastionX, BastionY);
-            if (done != true) {
-                bullet.draw(canvas);
+            bullet = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, 500, 200);
+            if (done == true) {
+                //System.out.println("Inside");
+                //final int savedState = canvas.save();
+                //bullet.draw(canvas);
+                //canvas.restoreToCount(savedState);
+                done = false;
+                canvas.rotate(90, bullet.getX() + (115 / 2), bullet.getY() + (160 / 2));
+                System.out.println("done");
             }
-            bullet.update();
-            done = true;
-            double sx = BastionX;
-            double sy = BastionY;
-            double deltaX = player.getX() - sx;//800 - sx;
-            double deltaY = player.getY() - sy;//L - sy;
+            //bullet.update();
+
+            double sx = bullet.getX();//500;
+            double sy = bullet.getY();//200;
+            double deltaX = 500 - sx;//800 - sx;
+            double deltaY = 180 - sy;//L - sy;
             double angle = Math.atan2(deltaY, deltaX);
             int speed = 4;
 
-            b += speed * Math.cos(angle);
-            c += speed * Math.sin(angle);
-            bullet.setX(b);
-            bullet.setY(c);
+
+            //b += speed * Math.cos(angle);
+            //c += speed * Math.sin(angle);
+            //bullet.setX(b);
+            //bullet.setY(c);
 
         }
         return contains;
@@ -207,7 +215,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             canvas.rotate(90, player.getX() + (115 / 2), player.getY() + (160 / 2));
             player.draw(canvas);
             //canvas.drawBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.bastion)), 100, 50, null);
-
+            bullet.draw(canvas);
 
             canvas.restoreToCount(savedState);
         }

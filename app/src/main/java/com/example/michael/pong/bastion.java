@@ -37,7 +37,7 @@ public class bastion extends GameObject{
     public static final int HEIGHT = 480;
 
     public bastion(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
-        radius = 1000;
+        radius = 200;
         x = xCoord;
         y = yCoord;
         dy = 100;
