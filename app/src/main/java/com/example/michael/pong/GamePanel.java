@@ -163,12 +163,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public boolean contains() {
         boolean contains = (Math.pow((player1.getX() - player.getX()), 2)) + (Math.pow((player1.getY() - player.getY()), 2)) < (Math.pow((player.getRadius()), 2));
         if (contains == true) {
+            //System.out.println("Inside");
             int BastionX = player.getX();
             int BastionY = player.getY();
             bullet = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, BastionX, BastionY);
             if (done != true) {
                 bullet.draw(canvas);
             }
+            bullet.update();
             done = true;
             double sx = BastionX;
             double sy = BastionY;
@@ -203,7 +205,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                 ArrayOfReapers.get(i).draw(canvas);
             }
             canvas.rotate(90, player.getX() + (115 / 2), player.getY() + (160 / 2));
-            //player.draw(canvas);
+            player.draw(canvas);
             //canvas.drawBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.bastion)), 100, 50, null);
 
 
