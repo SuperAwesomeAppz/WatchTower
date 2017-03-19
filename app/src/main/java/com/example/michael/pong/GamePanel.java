@@ -30,6 +30,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private Background bg;
     private bastion player;
     private Player player1;
+    private Player bullet;
+    private int b;
+    private int c;
+    private boolean done = true;
     private ArrayList<Player> ArrayOfReapers = new ArrayList<Player>();
     public static Canvas canvas;
 
@@ -156,9 +160,30 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         }
 
     }
-    public boolean contains()
-    {
-        return (Math.pow((player1.getX() - player.getX()), 2)) + (Math.pow((player1.getY() - player.getY()), 2))  < (Math.pow((player.getRadius()), 2)) ;
+    public boolean contains() {
+        boolean contains = (Math.pow((player1.getX() - player.getX()), 2)) + (Math.pow((player1.getY() - player.getY()), 2)) < (Math.pow((player.getRadius()), 2));
+        if (contains == true) {
+            int BastionX = player.getX();
+            int BastionY = player.getY();
+            bullet = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, BastionX, BastionY);
+            if (done != true) {
+                bullet.draw(canvas);
+            }
+            done = true;
+            double sx = BastionX;
+            double sy = BastionY;
+            double deltaX = player.getX() - sx;//800 - sx;
+            double deltaY = player.getY() - sy;//L - sy;
+            double angle = Math.atan2(deltaY, deltaX);
+            int speed = 4;
+
+            b += speed * Math.cos(angle);
+            c += speed * Math.sin(angle);
+            bullet.setX(b);
+            bullet.setY(c);
+
+        }
+        return contains;
     }
     @Override
     public void draw(Canvas canvas)
