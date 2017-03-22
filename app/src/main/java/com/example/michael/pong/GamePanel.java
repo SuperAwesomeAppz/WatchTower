@@ -11,6 +11,8 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
+
 import java.lang.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private int targetY= 0;
     private int b = 500;
     private int c = 200;
+    private boolean hit = false;
     private boolean done = true;
     private boolean found = false;
     private ArrayList<Player> ArrayOfReapers = new ArrayList<Player>();
@@ -85,15 +88,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, 500, 200);
         //player.setAlpha(50);
         int counter = 0;
-        for(int i = 0; i < 12; i++) {
-            if(i % 4 == 0)
-                counter += 100;
-            int x = -1300 + counter;
-            counter+= 80;
-            //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, x, y);
-            player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, x, y);
-            ArrayOfReapers.add(player1);
-        }
+        for (int i = 0; i < 12; i++) {
+                if (i % 4 == 0)
+                    counter += 150;
+                int x= 0 - counter;
+                counter += 80;
+                //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, x, y);
+                player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, x, y);
+                ArrayOfReapers.add(player1);
+            }
         System.out.println("Amount of reapers: " + ArrayOfReapers.size());
         //we can safely start the game loop
         thread.setRunning(true);
@@ -151,11 +154,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     }
     public boolean contains() {
         boolean contains = false;
-        for (int i = 0; i < ArrayOfReapers.size() ;i ++) {
-            contains = (Math.pow(( ArrayOfReapers.get(i).getX() - player.getX()), 2)) + (Math.pow(( ArrayOfReapers.get(i).getY() - player.getY()), 2)) < (Math.pow((player.getRadius()), 2));
+        for(int i = 0; i < ArrayOfReapers.size(); i++) {
+            contains = (Math.pow((ArrayOfReapers.get(i).getX() - player.getX()), 2)) + (Math.pow((ArrayOfReapers.get(i).getY() - player.getY()), 2)) < (Math.pow((player.getRadius()), 2));
             if (contains == true) {
-                targetX =  ArrayOfReapers.get(i).getX();
-                targetY =  ArrayOfReapers.get(i).getY();
+                if (player1.isDead() != true) {
+                    targetX = ArrayOfReapers.get(i).getX();
+                    targetY = ArrayOfReapers.get(i).getY();
+                }
                 if (done == true) {
                     //System.out.println("Inside");
                     bullet = new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullets), 72, 63, 4, player.getX(), player.getY());
@@ -167,12 +172,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                     //canvas.rotate(90, bullet.getX() + (115 / 2), bullet.getY() + (160 / 2));
                     //System.out.println("done");
                 }
-                boolean hit = bullet.getCurrentPoint(targetX, targetY);
-                if(hit == true)
-                {
+                if(ArrayOfReapers.get(i).isDead() == false) {
+                    hit = bullet.getCurrentPoint(targetX, targetY);
+                }
+                if (hit == true) {
                     player1.minusHealth();
                     done = true;
+                    if (player1.isDead() == true)
+                        ArrayOfReapers.remove(player1);
                 }
+
             }
         }
         return contains;
@@ -182,9 +191,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     {
         final float scaleFactorX = getWidth()/(WIDTH*1.f);
         final float scaleFactorY = getHeight()/(HEIGHT*1.f);
-
-
-
         if(canvas!=null) {
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);
@@ -200,11 +206,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             if(done == false) {
                 bullet.draw(canvas);
             }
-
             canvas.restoreToCount(savedState);
         }
-
     }
-
-
 }

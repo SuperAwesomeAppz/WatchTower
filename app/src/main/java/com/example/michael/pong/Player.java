@@ -25,7 +25,7 @@ public class Player extends GameObject{
 
     public Player(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
 
-        health = 250;
+        health = 8;
         x = xCoord;
         y = yCoord;
         dy = 100;
@@ -147,7 +147,16 @@ public class Player extends GameObject{
         health -= 10;
     }
 
+    public boolean isDead()
+    {
+        if(health <= 0) {
 
+            System.out.println("Dead!!!!!!!!!!!!!!!!!!!!!!!!");
+            return true;
+        }
+            else
+            return false;
+    }
     public void draw(Canvas canvas)
     {
         canvas.drawBitmap(animation.getImage(),x,y,null);

@@ -99,13 +99,13 @@ public class Bullet extends GameObject{
         double deltaX =  targetX - sx;//800 - sx;
         double deltaY = targetY - sy;//L - sy;
         double angle = Math.atan2( deltaY, deltaX );
-        int speed = 30;
+        int speed = 20;
 
 
         x += speed * Math.cos(angle);
         y += speed * Math.sin(angle);
 
-        if(x > (targetX -5) && x < (targetX + 5) && y > (targetY -5) && y < (targetY + 5)) {
+        if(x > (targetX -8) && x < (targetX + 8) && y > (targetY -8) && y < (targetY + 8)) {
             hit = true;
         }
 
