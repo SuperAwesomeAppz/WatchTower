@@ -30,10 +30,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private Background bg;
     private bastion player;
     private Player player1;
-    private Player bullet;
+    private Bullet bullet;
+    private int targetX = 0;
+    private int targetY= 0;
     private int b = 500;
     private int c = 200;
     private boolean done = true;
+    private boolean found = false;
     private ArrayList<Player> ArrayOfReapers = new ArrayList<Player>();
     public static Canvas canvas;
 
@@ -136,6 +139,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         if(player.getPlaying()) {
             bg.update();
             player.update();
+            //bullet.update();
             //player1.update();
             for(int i =0; i < ArrayOfReapers.size(); i ++)
             {
@@ -144,54 +148,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         }
         boolean inside = false;
         inside = contains();
-        if (inside == true)//reaper is insides bastions radius
-        {
-            int health;
-            health = player1.minusHealth();
-
-
-            if (health >= 1) {
-                //System.out.println("Health has been taken off");
-                //updateBastion();
-            }
-            else
-            {
-                //System.out.println("reaper is dead!");
-            }
-        }
-
     }
     public boolean contains() {
-        boolean contains = (Math.pow((player1.getX() - player.getX()), 2)) + (Math.pow((player1.getY() - player.getY()), 2)) < (Math.pow((player.getRadius()), 2));
-        if (contains == true) {
-            //System.out.println("Inside");
-            int BastionX = player.getX();
-            int BastionY = player.getY();
-            bullet = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, 500, 200);
-            if (done == true) {
-                //System.out.println("Inside");
-                //final int savedState = canvas.save();
-                //bullet.draw(canvas);
-                //canvas.restoreToCount(savedState);
-                done = false;
-                canvas.rotate(90, bullet.getX() + (115 / 2), bullet.getY() + (160 / 2));
-                System.out.println("done");
+        boolean contains = false;
+        for (int i = 0; i < ArrayOfReapers.size() ;i ++) {
+            contains = (Math.pow(( ArrayOfReapers.get(i).getX() - player.getX()), 2)) + (Math.pow(( ArrayOfReapers.get(i).getY() - player.getY()), 2)) < (Math.pow((player.getRadius()), 2));
+            if (contains == true) {
+                targetX =  ArrayOfReapers.get(i).getX();
+                targetY =  ArrayOfReapers.get(i).getY();
+                if (done == true) {
+                    //System.out.println("Inside");
+                    bullet = new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullets), 72, 63, 4, player.getX(), player.getY());
+                    //final int savedState = canvas.save();
+                    //bullet.draw(canvas);
+                    draw(canvas);
+                    //canvas.restoreToCount(savedState);
+                    done = false;
+                    //canvas.rotate(90, bullet.getX() + (115 / 2), bullet.getY() + (160 / 2));
+                    //System.out.println("done");
+                }
+                boolean hit = bullet.getCurrentPoint(targetX, targetY);
+                if(hit == true)
+                {
+                    player1.minusHealth();
+                    done = true;
+                }
             }
-            //bullet.update();
-
-            double sx = bullet.getX();//500;
-            double sy = bullet.getY();//200;
-            double deltaX = 500 - sx;//800 - sx;
-            double deltaY = 180 - sy;//L - sy;
-            double angle = Math.atan2(deltaY, deltaX);
-            int speed = 4;
-
-
-            //b += speed * Math.cos(angle);
-            //c += speed * Math.sin(angle);
-            //bullet.setX(b);
-            //bullet.setY(c);
-
         }
         return contains;
     }
@@ -212,10 +194,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                 //player1.draw(canvas);
                 ArrayOfReapers.get(i).draw(canvas);
             }
-            canvas.rotate(90, player.getX() + (115 / 2), player.getY() + (160 / 2));
+            //canvas.rotate(90, player.getX() + (115 / 2), player.getY() + (160 / 2));
             player.draw(canvas);
             //canvas.drawBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.bastion)), 100, 50, null);
-            bullet.draw(canvas);
+            if(done == false) {
+                bullet.draw(canvas);
+            }
 
             canvas.restoreToCount(savedState);
         }
