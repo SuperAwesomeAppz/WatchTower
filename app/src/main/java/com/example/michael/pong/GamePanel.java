@@ -8,6 +8,9 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 //import android.graphics.Matrix;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -41,6 +44,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private boolean done = true;
     private boolean found = false;
     private ArrayList<Player> ArrayOfReapers = new ArrayList<Player>();
+    private ArrayList<bastion> ArrayOfBastions = new ArrayList<bastion>();
     public static Canvas canvas;
 
 
@@ -101,20 +105,29 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         //we can safely start the game loop
         thread.setRunning(true);
         thread.start();
-
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        if(event.getAction()==MotionEvent.ACTION_DOWN){
 
+        if(event.getAction()==MotionEvent.ACTION_DOWN){
+            int touchX = (int)event.getX();
+            int touchY = (int)event.getY();
+            player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, touchX, touchY);
+            ArrayOfBastions.add(player);
             if(!player.getPlaying())
             {
-                player.setPlaying(true);
+                for(int i =0; i < ArrayOfBastions.size(); i ++)
+                {
+                    ArrayOfBastions.get(i).setPlaying(true);
+                    //player1.setUp(true);
+                }
+                //player.setPlaying(true);
             }
             else
             {
-                player.setUp(true);
+                //player.setUp(true);
                 for(int i =0; i < ArrayOfReapers.size(); i ++)
                 {
                     ArrayOfReapers.get(i).setUp(true);
@@ -141,7 +154,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     {
         if(player.getPlaying()) {
             bg.update();
-            player.update();
+            for(int i =0; i < ArrayOfBastions.size(); i ++)
+            {
+                ArrayOfBastions.get(i).update();
+            }
+            //player.update();
             //bullet.update();
             //player1.update();
             for(int i =0; i < ArrayOfReapers.size(); i ++)
@@ -201,10 +218,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                 ArrayOfReapers.get(i).draw(canvas);
             }
             //canvas.rotate(90, player.getX() + (115 / 2), player.getY() + (160 / 2));
-            player.draw(canvas);
+           // player.draw(canvas);
+            for(int i =0; i < ArrayOfBastions.size(); i ++)
+            {
+                //player1.draw(canvas);
+                ArrayOfBastions.get(i).draw(canvas);
+            }
             //canvas.drawBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.bastion)), 100, 50, null);
             if(done == false) {
                 bullet.draw(canvas);
+                //canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             }
             canvas.restoreToCount(savedState);
         }
