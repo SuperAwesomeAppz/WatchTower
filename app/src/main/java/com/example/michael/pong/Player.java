@@ -14,6 +14,7 @@ public class Player extends GameObject{
     private int health;
     private double dya;
     private boolean up;
+    private boolean dead = false;
     private boolean playing;
     private Animation animation = new Animation();
     private long startTime;
@@ -58,7 +59,7 @@ public class Player extends GameObject{
         }
         animation.update();
 
-        getCurrentPoint();//constantly check what point each reaper is going for
+        //getCurrentPoint();//constantly check what point each reaper is going for
 
 
 
@@ -150,12 +151,12 @@ public class Player extends GameObject{
     public boolean isDead()
     {
         if(health <= 0) {
-
+            dead = true;
             System.out.println("Dead!!!!!!!!!!!!!!!!!!!!!!!!");
-            return true;
+            return dead;
         }
             else
-            return false;
+            return dead;
     }
     public void draw(Canvas canvas)
     {

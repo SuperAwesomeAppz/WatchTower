@@ -14,6 +14,7 @@ public class Bullet extends GameObject{
     private int health;
     private double dya;
     private boolean up;
+    private boolean hit = false;
     private boolean playing;
     private Animation animation = new Animation();
     private long startTime;
@@ -92,7 +93,7 @@ public class Bullet extends GameObject{
           //  System.out.println("done");
         //}
         //bullet.update();
-        boolean hit = false;
+
         double sx = x;
         double sy = y;
         int L = GamePanel.HEIGHT / 2;
@@ -110,6 +111,13 @@ public class Bullet extends GameObject{
         }
 
         return hit;
+    }
+    public boolean isFinished()
+    {
+        if(hit == true)
+            return true;
+        else
+            return false;
     }
 
     public int minusHealth()

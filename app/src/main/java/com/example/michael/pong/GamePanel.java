@@ -10,7 +10,7 @@ import android.graphics.Canvas;
 //import android.graphics.Matrix;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
+import android.graphics.PorterDuff; 
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -45,6 +45,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private boolean found = false;
     private ArrayList<Player> ArrayOfReapers = new ArrayList<Player>();
     private ArrayList<bastion> ArrayOfBastions = new ArrayList<bastion>();
+    private ArrayList<Bullet> ArrayOfBullets = new ArrayList<Bullet>();
     public static Canvas canvas;
 
 
@@ -131,6 +132,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                 for(int i =0; i < ArrayOfReapers.size(); i ++)
                 {
                     ArrayOfReapers.get(i).setUp(true);
+
                     //player1.setUp(true);
                 }
             }
@@ -163,7 +165,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             //player1.update();
             for(int i =0; i < ArrayOfReapers.size(); i ++)
             {
-                ArrayOfReapers.get(i).update();
+                if(ArrayOfReapers.get(i).isDead() != true)
+                {
+                    ArrayOfReapers.get(i).getCurrentPoint();
+                    ArrayOfReapers.get(i).update();
+                }
             }
         }
         boolean inside = false;
@@ -171,34 +177,38 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     }
     public boolean contains() {
         boolean contains = false;
-        for(int i = 0; i < ArrayOfReapers.size(); i++) {
-            contains = (Math.pow((ArrayOfReapers.get(i).getX() - player.getX()), 2)) + (Math.pow((ArrayOfReapers.get(i).getY() - player.getY()), 2)) < (Math.pow((player.getRadius()), 2));
-            if (contains == true) {
-                if (player1.isDead() != true) {
-                    targetX = ArrayOfReapers.get(i).getX();
-                    targetY = ArrayOfReapers.get(i).getY();
-                }
-                if (done == true) {
-                    //System.out.println("Inside");
-                    bullet = new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullets), 72, 63, 4, player.getX(), player.getY());
-                    //final int savedState = canvas.save();
-                    //bullet.draw(canvas);
-                    draw(canvas);
-                    //canvas.restoreToCount(savedState);
-                    done = false;
-                    //canvas.rotate(90, bullet.getX() + (115 / 2), bullet.getY() + (160 / 2));
-                    //System.out.println("done");
-                }
-                if(ArrayOfReapers.get(i).isDead() == false) {
-                    hit = bullet.getCurrentPoint(targetX, targetY);
-                }
-                if (hit == true) {
-                    player1.minusHealth();
-                    done = true;
-                    if (player1.isDead() == true)
-                        ArrayOfReapers.remove(player1);
-                }
+        for(int j = 0; j < ArrayOfBastions.size(); j++) {
+            for (int i = 0; i < ArrayOfReapers.size(); i++) {
+                contains = (Math.pow((ArrayOfReapers.get(i).getX() - ArrayOfBastions.get(j).getX()), 2)) + (Math.pow((ArrayOfReapers.get(i).getY() - ArrayOfBastions.get(j).getY()), 2)) < (Math.pow((ArrayOfBastions.get(j).getRadius()), 2));
+                if (contains == true) {
+                    if (ArrayOfReapers.get(i).isDead() != true) {
+                        targetX = ArrayOfReapers.get(i).getX();
+                        targetY = ArrayOfReapers.get(i).getY();
+                    }
+                    if (done == true) {
+                        //System.out.println("Inside");
+                        bullet = new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullets), 72, 63, 4, player.getX(), player.getY());
+                        ArrayOfBullets.add(bullet);
+                        //final int savedState = canvas.save();
+                        //bullet.draw(canvas);
+                        draw(canvas);
+                        //canvas.restoreToCount(savedState);
+                        done = false;
+                        //canvas.rotate(90, bullet.getX() + (115 / 2), bullet.getY() + (160 / 2));
+                        //System.out.println("done");
+                    }
+                    if (ArrayOfReapers.get(i).isDead() == false) {
+                        hit = bullet.getCurrentPoint(targetX, targetY);
+                        if (hit == true) {
+                            ArrayOfReapers.get(i).minusHealth();
+                            done = true;
+                            //if (player1.isDead() == true)
+                            //ArrayOfReapers.remove(player1);
+                        }
+                    }
 
+
+                }
             }
         }
         return contains;
@@ -215,7 +225,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             for(int i =0; i < ArrayOfReapers.size(); i ++)
             {
                 //player1.draw(canvas);
-                ArrayOfReapers.get(i).draw(canvas);
+                if(ArrayOfReapers.get(i).isDead() == false)
+                    ArrayOfReapers.get(i).draw(canvas);
             }
             //canvas.rotate(90, player.getX() + (115 / 2), player.getY() + (160 / 2));
            // player.draw(canvas);
@@ -226,7 +237,16 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             }
             //canvas.drawBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.bastion)), 100, 50, null);
             if(done == false) {
-                bullet.draw(canvas);
+
+                for(int i =0; i < ArrayOfBullets.size(); i ++)
+                {
+                    //player1.draw(canvas);
+                    if(ArrayOfBullets.get(i).isFinished() == false)
+                        ArrayOfBullets.get(i).draw(canvas);
+                }
+
+
+                //bullet.draw(canvas);
                 //canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             }
             canvas.restoreToCount(savedState);
