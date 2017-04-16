@@ -35,9 +35,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public static final int MOVESPEED = -5;
     private MainThread thread;
     private Background bg;
+    private Background c1;
     private bastion player;
     private Player player1;
     private Bullet bullet;
+    private int coins = 200;
     private int targetX = 0;
     private int targetY= 0;
     private int b = 500;
@@ -87,7 +89,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder){
 
+
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1));
+        c1 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.circles));
         //int y = GamePanel.HEIGHT / 2;
         int y = 200;
         //players arguments are width of frame, height, number of frames, x and y coords
@@ -118,10 +122,105 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         if(event.getAction()==MotionEvent.ACTION_DOWN){
             int touchX = (int)event.getX();
             int touchY = (int)event.getY();
-            player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, touchX, touchY);
-            System.out.println("x = " + touchX + "     Y = " +touchY);
 
-            ArrayOfBastions.add(player);
+            int [] spotsX = new int [41];
+            int [] spotsY = new int [41];
+            spotsX[0] = 60;
+            spotsX[1] = 57;
+            spotsX[2] = 127;
+            spotsX[3] = 259;
+            spotsX[4] = 391;
+            spotsX[5] = 524;
+            spotsX[6] = 656;
+            spotsX[7] = 660;
+            spotsX[8] = 664;
+            spotsX[9] = 647;
+            spotsX[10] = 796;
+            spotsX[11] = 949;
+            spotsX[12] = 912;
+            spotsX[13] = 916;
+            spotsX[14] = 937;
+            spotsX[15] = 1069;
+            spotsX[16] = 1205;
+            spotsX[17] = 1205;
+            spotsX[18] = 1205;
+            spotsX[19] = 1205;
+            spotsX[20] = 1205;
+            spotsX[21] = 1205;
+            spotsX[22] = 1338;
+            spotsX[23] = 1470;
+            spotsX[24] = 1602;
+            spotsX[25] = 1466;
+            spotsX[26] = 1466;
+            spotsX[27] = 1466;
+            spotsX[28] = 1540;
+            spotsX[29] = 1466;
+            spotsX[30] = 1569;
+            spotsX[31] = 1701;
+            spotsX[32] = 346;
+            spotsX[33] = 346;
+            spotsX[34] = 346;
+            spotsX[35] = 346;
+            spotsX[36] = 76;
+            spotsX[37] = 226;
+            spotsX[38] = 453;
+            spotsX[39] = 594;
+            spotsX[40] = 594;
+
+            spotsY[0] = 405;
+            spotsY[1] = 245;
+            spotsY[2] = 88;
+            spotsY[3] = 96;
+            spotsY[4] = 96;
+            spotsY[5] = 100;
+            spotsY[6] = 137;
+            spotsY[7] = 265;
+            spotsY[8] = 393;
+            spotsY[9] = 538;
+            spotsY[10] = 538;
+            spotsY[11] = 529;
+            spotsY[12] = 657;
+            spotsY[13] = 789;
+            spotsY[14] = 282;
+            spotsY[15] = 278;
+            spotsY[16] = 278;
+            spotsY[17] = 410;
+            spotsY[18] = 546;
+            spotsY[19] = 686;
+            spotsY[20] = 818;
+            spotsY[21] = 950;
+            spotsY[22] = 855;
+            spotsY[23] = 855;
+            spotsY[24] = 855;
+            spotsY[25] = 117;
+            spotsY[26] = 257;
+            spotsY[27] = 401;
+            spotsY[28] = 500;
+            spotsY[29] = 608;
+            spotsY[30] = 323;
+            spotsY[31] = 315;
+            spotsY[32] = 348;
+            spotsY[33] = 480;
+            spotsY[34] = 608;
+            spotsY[35] = 744;
+            spotsY[36] = 682;
+            spotsY[37] = 682;
+            spotsY[38] = 826;
+            spotsY[39] = 830;
+            spotsY[40] = 967;
+
+            int radius = 70;
+
+            for(int i = 0; i < spotsX.length ; i++) {
+
+                boolean contains = (Math.pow((touchX - spotsX[i]), 2)) + (Math.pow((touchY - spotsY[i]), 2)) < (Math.pow((radius), 2));
+                if(contains == true && coins > player.getPrice()) {
+                    player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, spotsX[i] - 50, spotsY[i] - 90);
+                    ArrayOfBastions.add(player);
+                }
+            }
+
+
             if(!player.getPlaying())
             {
                 for(int i =0; i < ArrayOfBastions.size(); i ++)
@@ -161,6 +260,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     {
         if(player.getPlaying()) {
             bg.update();
+            c1.update();
             for(int i =0; i < ArrayOfBastions.size(); i ++)
             {
                 ArrayOfBastions.get(i).update();
@@ -206,6 +306,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                         hit = bullet.getCurrentPoint(targetX, targetY);
                         if (hit == true) {
                             ArrayOfReapers.get(i).minusHealth();
+                            coins += 20;
+                            System.out.println("You hit a reaper 20 coins have been added.... Current balance: " + coins);
+
                             done = true;
                             //if (player1.isDead() == true)
                             //ArrayOfReapers.remove(player1);
@@ -227,6 +330,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);
             bg.draw(canvas);
+            c1.draw(canvas);
             for(int i =0; i < ArrayOfReapers.size(); i ++)
             {
                 //player1.draw(canvas);

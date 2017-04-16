@@ -19,7 +19,7 @@ import android.view.SurfaceView;
 //Coyne was here
 import android.graphics.Matrix;
 import android.widget.ImageView;
-
+import android.view.MotionEvent;
  /* Created by Michael on 23/02/2017.
  */
 
@@ -114,4 +114,7 @@ public class bastion extends GameObject{
     public int getY(){return y;}
     public void resetDYA(){dya = 0;}
     public void resetScore(){score = 0;}
+    public double getPrice(){
+        return 100;
+    }
 }

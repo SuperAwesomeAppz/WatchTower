@@ -182,7 +182,6 @@ public class Player extends GameObject{
     {
         health -= 10;
     }
-
     public boolean isDead()
     {
         if(health <= 0) {
@@ -204,7 +203,10 @@ public class Player extends GameObject{
     public void resetScore(){score = 0;}
     public int getX(){return x;}
     public int getY(){return y;}
-
+    public int getHealth()
+    {
+        return health;
+    }
     public void setX(int ReaperX)
     {
         this.x = ReaperX;
