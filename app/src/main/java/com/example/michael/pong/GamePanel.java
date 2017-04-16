@@ -30,6 +30,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 {
     public static final int WIDTH = 856;
     public static final int HEIGHT = 480;
+    //public static final int WIDTH = 1280;
+    //public static final int HEIGHT = 720;
     public static final int MOVESPEED = -5;
     private MainThread thread;
     private Background bg;
@@ -99,7 +101,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                 int x= 0 - counter;
                 counter += 80;
                 //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, x, y);
-                player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, x, y);
+                //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, x, y);
+                player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 147, 128, 4, x, y);
                 ArrayOfReapers.add(player1);
             }
         System.out.println("Amount of reapers: " + ArrayOfReapers.size());
@@ -116,6 +119,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             int touchX = (int)event.getX();
             int touchY = (int)event.getY();
             player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, touchX, touchY);
+            System.out.println("x = " + touchX + "     Y = " +touchY);
+
             ArrayOfBastions.add(player);
             if(!player.getPlaying())
             {
@@ -216,8 +221,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void draw(Canvas canvas)
     {
-        final float scaleFactorX = getWidth()/(WIDTH*1.f);
-        final float scaleFactorY = getHeight()/(HEIGHT*1.f);
+        final float scaleFactorX = 1;//getWidth()/(WIDTH*1.f);
+        final float scaleFactorY = 1;//getHeight()/(HEIGHT*1.f);
         if(canvas!=null) {
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);

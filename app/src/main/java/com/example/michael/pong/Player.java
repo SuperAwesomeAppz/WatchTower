@@ -80,7 +80,7 @@ public class Player extends GameObject{
     public void getCurrentPoint()
     {
         //move from current x,y to point 200,50
-        int Xpoints[] = new int[16];
+        /*int Xpoints[] = new int[16];
         Xpoints[0] = 80;
         Xpoints[1] = 80;
         Xpoints[2] = 160;
@@ -113,7 +113,42 @@ public class Player extends GameObject{
         Ypoints[12] = 300;
         Ypoints[13] = 180;
         Ypoints[14] = 180;
-        Ypoints[15] = 180;
+        Ypoints[15] = 180;*/
+        int Xpoints[] = new int[16];
+        Xpoints[0] = 200;
+        Xpoints[1] = 200;
+        Xpoints[2] = 433;
+        Xpoints[3] = 433;
+        Xpoints[4] = 656;
+        Xpoints[5] = 656;
+        Xpoints[6] = 928;
+        Xpoints[7] = 928;
+        Xpoints[8] = 652;
+        Xpoints[9] = 652;
+        Xpoints[10] = 1152;
+        Xpoints[11] = 1152;
+        Xpoints[12] = 1486;
+        Xpoints[13] = 1486;
+        Xpoints[14] = 1900;
+        Xpoints[15] = 2000;
+        int Ypoints[] = new int[16];
+        Ypoints[0] = 490;
+        Ypoints[1] = 200;
+        Ypoints[2] = 200;
+        Ypoints[3] = 562;
+        Ypoints[4] = 562;
+        Ypoints[5] = 892;
+        Ypoints[6] = 892;
+        Ypoints[7] = 339;
+        Ypoints[8] = 339;
+        Ypoints[9] = 174;
+        Ypoints[10] = 174;
+        Ypoints[11] = 711;
+        Ypoints[12] = 711;
+        Ypoints[13] = 484;
+        Ypoints[14] = 484;
+        Ypoints[15] = 484;
+
 
 
         double sx = x;
@@ -122,13 +157,13 @@ public class Player extends GameObject{
         double deltaX =  Xpoints[countX] - sx;//800 - sx;
         double deltaY = Ypoints[countY] - sy;//L - sy;
         double angle = Math.atan2( deltaY, deltaX );
-        int speed = 4;
+        int speed = 8;
         if(Finished != true) {
             x += speed * Math.cos(angle);
             y += speed * Math.sin(angle);
         }
 
-        if(x > (Xpoints[countX] -4) && x < (Xpoints[countX] + 4) && y > (Ypoints[countY] -4) && y < (Ypoints[countY] + 4)) {
+        if(x > (Xpoints[countX] -8) && x < (Xpoints[countX] + 8) && y > (Ypoints[countY] -8) && y < (Ypoints[countY] + 8)) {
             countX++;
             countY++;
             //System.out.println("MATCH!!!    " + countX);
@@ -152,7 +187,7 @@ public class Player extends GameObject{
     {
         if(health <= 0) {
             dead = true;
-            System.out.println("Dead!!!!!!!!!!!!!!!!!!!!!!!!");
+            //System.out.println("Dead!!!!!!!!!!!!!!!!!!!!!!!!");
             return dead;
         }
             else
