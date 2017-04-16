@@ -217,6 +217,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                 if(contains == true && coins > player.getPrice()) {
                     player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, spotsX[i] - 50, spotsY[i] - 90);
                     ArrayOfBastions.add(player);
+                    coins -= player.getPrice();
                 }
             }
 
