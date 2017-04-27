@@ -12,6 +12,8 @@ public class Bullet extends GameObject{
     private Bitmap spritesheet;
     private int score;
     private int health;
+    private int targetX;
+    private int targetY;
     private double dya;
     private boolean up;
     private boolean hit = false;
@@ -21,14 +23,19 @@ public class Bullet extends GameObject{
     private int countX = 0;
     private int countY = 0;
     private boolean Finished = false;
+    private Player reaper;
     //private boolean hit = false;
     //private int value1;
     //private int value2;
 
-    public Bullet(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
+    public Bullet(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord, int targetX, int targetY, Player reaper) {
 
         health = 250;
         x = xCoord;
+        this.targetX =targetX;
+        this.targetY = targetY;
+        this.reaper = reaper;
+        //boolean hit = getCurrentPoints();
         y = yCoord;
         dy = 100;
         score = 0;
@@ -78,7 +85,7 @@ public class Bullet extends GameObject{
        // y += dy*2;
         dy = 0;*/
     }
-    public boolean getCurrentPoint(int targetX, int targetY)
+    public boolean getCurrentPoints()
     {
         //int BastionX = player.getX();
         //int BastionY = player.getY();
@@ -97,19 +104,35 @@ public class Bullet extends GameObject{
         double sx = x;
         double sy = y;
         int L = GamePanel.HEIGHT / 2;
-        double deltaX =  targetX - sx;//800 - sx;
-        double deltaY = targetY - sy;//L - sy;
+        //double deltaX =  this.targetX - sx;//800 - sx;
+        //double deltaY = this.targetY - sy;//L - sy;
+        double deltaX =  this.reaper.getX() - sx;//800 - sx;
+        double deltaY = this.reaper.getY() - sy;//L - sy;
         double angle = Math.atan2( deltaY, deltaX );
         int speed = 20;
 
 
         x += speed * Math.cos(angle);
         y += speed * Math.sin(angle);
+        System.out.print("THE X IS = " + this.targetX);
+        System.out.print("THE Y IS = " + this.targetY);
 
-        if(x > (targetX -8) && x < (targetX + 8) && y > (targetY -8) && y < (targetY + 8)) {
+
+        if(x > (this.reaper.getX() -8) && x < (this.reaper.getX()+ 8) && y > (this.reaper.getY() -8) && y < (this.reaper.getY() + 8)) {
             hit = true;
         }
+        else
+            hit = false;
 
+        return hit;
+    }
+    public boolean getCurrentPoint()
+    {
+        if(x > (this.reaper.getX() -8) && x < (this.reaper.getX()+ 8) && y > (this.reaper.getY() -8) && y < (this.reaper.getY() + 8)) {
+            hit = true;
+        }
+        else
+            hit = false;
         return hit;
     }
     public boolean isFinished()

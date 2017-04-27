@@ -7,10 +7,12 @@ package com.example.michael.pong;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import java.util.*;
 //import android.graphics.Matrix;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff; 
+import android.graphics.PorterDuff;
+import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -28,6 +30,7 @@ import static com.example.michael.pong.R.drawable.brick;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 {
+    boolean TargetStillAlive = true;
     public static final int WIDTH = 856;
     public static final int HEIGHT = 480;
     //public static final int WIDTH = 1280;
@@ -40,8 +43,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private Player player1;
     private Bullet bullet;
     private int coins = 200;
-    private int targetX = 0;
-    private int targetY= 0;
+    private int targetX = 1;
+    private int targetY= 1;
     private int b = 500;
     private int c = 200;
     private boolean hit = false;
@@ -87,7 +90,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder){
+    public void surfaceCreated(SurfaceHolder holder) {
 
 
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1));
@@ -293,7 +296,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                     }
                     if (done == true) {
                         //System.out.println("Inside");
-                        bullet = new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullets), 72, 63, 4, player.getX(), player.getY());
+                        //bullet = new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullets), 72, 63, 4, player.getX(), player.getY());
+                        bullet = new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullets), 72, 63, 4,ArrayOfBastions.get(j).getX(),  ArrayOfBastions.get(j).getY(),targetX,targetY, ArrayOfReapers.get(i));
+                        //hit = bullet.getCurrentPoint(targetX, targetY);
                         ArrayOfBullets.add(bullet);
                         //final int savedState = canvas.save();
                         //bullet.draw(canvas);
@@ -303,20 +308,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                         //canvas.rotate(90, bullet.getX() + (115 / 2), bullet.getY() + (160 / 2));
                         //System.out.println("done");
                     }
-                    if (ArrayOfReapers.get(i).isDead() == false) {
-                        hit = bullet.getCurrentPoint(targetX, targetY);
-                        if (hit == true) {
-                            ArrayOfReapers.get(i).minusHealth();
-                            coins += 20;
-                            System.out.println("You hit a reaper 20 coins have been added.... Current balance: " + coins);
+                        if (ArrayOfReapers.get(i).isDead() == false) {
+                            for(int k =0; k < ArrayOfBullets.size(); k++) {
+                                hit = ArrayOfBullets.get(k).getCurrentPoints();
+                                if(hit == true)
+                                    ArrayOfBullets.remove(ArrayOfBullets.get(k));
+                            }
+                            if (hit == true) {
+                                ArrayOfReapers.get(i).minusHealth();
+                                coins += 20;
+                                System.out.println("You hit a reaper 20 coins have been added.... Current balance: " + coins);
 
-                            done = true;
-                            //if (player1.isDead() == true)
-                            //ArrayOfReapers.remove(player1);
+                                done = true;
+                                //if (player1.isDead() == true)
+                                //ArrayOfReapers.remove(player1);
+                            }
+                        //
                         }
-                    }
-
-
                 }
             }
         }
@@ -346,7 +354,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                 ArrayOfBastions.get(i).draw(canvas);
             }
             //canvas.drawBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.bastion)), 100, 50, null);
-            if(done == false) {
+           if(done == false) {
 
                 for(int i =0; i < ArrayOfBullets.size(); i ++)
                 {

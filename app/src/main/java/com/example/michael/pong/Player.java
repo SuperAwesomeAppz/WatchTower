@@ -26,7 +26,7 @@ public class Player extends GameObject{
 
     public Player(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
 
-        health = 8;
+        health = 2000;
         x = xCoord;
         y = yCoord;
         dy = 100;
