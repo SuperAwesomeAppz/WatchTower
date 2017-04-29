@@ -26,7 +26,7 @@ public class Player extends GameObject{
 
     public Player(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
 
-        health = 8;
+        health = 100;
         x = xCoord;
         y = yCoord;
         dy = 100;
@@ -157,13 +157,13 @@ public class Player extends GameObject{
         double deltaX =  Xpoints[countX] - sx;//800 - sx;
         double deltaY = Ypoints[countY] - sy;//L - sy;
         double angle = Math.atan2( deltaY, deltaX );
-        int speed = 8;
+        int speed = 6;
         if(Finished != true) {
             x += speed * Math.cos(angle);
             y += speed * Math.sin(angle);
         }
 
-        if(x > (Xpoints[countX] -8) && x < (Xpoints[countX] + 8) && y > (Ypoints[countY] -8) && y < (Ypoints[countY] + 8)) {
+        if(x > (Xpoints[countX] -5) && x < (Xpoints[countX] + 5) && y > (Ypoints[countY] -5) && y < (Ypoints[countY] + 5)) {
             countX++;
             countY++;
             //System.out.println("MATCH!!!    " + countX);
@@ -207,6 +207,8 @@ public class Player extends GameObject{
     {
         return health;
     }
+    public void addHealth(int newHealth) {health += newHealth; }
+    public void kill(){ health = 0;}
     public void setX(int ReaperX)
     {
         this.x = ReaperX;
