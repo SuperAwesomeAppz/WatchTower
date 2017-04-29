@@ -101,28 +101,33 @@ public class Bullet extends GameObject{
         //}
         //bullet.update();
 
-        double sx = x;
-        double sy = y;
-        int L = GamePanel.HEIGHT / 2;
-        //double deltaX =  this.targetX - sx;//800 - sx;
-        //double deltaY = this.targetY - sy;//L - sy;
-        double deltaX =  this.reaper.getX() - sx;//800 - sx;
-        double deltaY = this.reaper.getY() - sy;//L - sy;
-        double angle = Math.atan2( deltaY, deltaX );
-        int speed = 20;
+        if(this.reaper.isDead() == false) {
+            double sx = x;
+            double sy = y;
+            int L = GamePanel.HEIGHT / 2;
+            //double deltaX =  this.targetX - sx;//800 - sx;
+            //double deltaY = this.targetY - sy;//L - sy;
+            double deltaX = this.reaper.getX() - sx;//800 - sx;
+            double deltaY = this.reaper.getY() - sy;//L - sy;
+            double angle = Math.atan2(deltaY, deltaX);
+            int speed = 5;
 
 
-        x += speed * Math.cos(angle);
-        y += speed * Math.sin(angle);
-        System.out.print("THE X IS = " + this.targetX);
-        System.out.print("THE Y IS = " + this.targetY);
+            x += speed * Math.cos(angle);
+            y += speed * Math.sin(angle);
+        }
+        //System.out.print("THE X IS = " + this.targetX);
+        //System.out.print("THE Y IS = " + this.targetY);
 
 
-        if(x > (this.reaper.getX() -8) && x < (this.reaper.getX()+ 8) && y > (this.reaper.getY() -8) && y < (this.reaper.getY() + 8)) {
+        if(x > (this.reaper.getX() -10) && x < (this.reaper.getX()+ 10) && y > (this.reaper.getY() -10) && y < (this.reaper.getY() + 10)) {
             hit = true;
         }
         else
             hit = false;
+        if(this.reaper.isDead() == true)
+            hit = true;
+
 
         return hit;
     }
@@ -137,6 +142,9 @@ public class Bullet extends GameObject{
     }
     public boolean isFinished()
     {
+        boolean enemyLeftRadius = (Math.pow((this.reaper.getX() - x), 2)) + (Math.pow((this.reaper.getY() - y), 2)) < (Math.pow((300), 2));
+        if(enemyLeftRadius == false)
+            hit = true;
         if(hit == true)
             return true;
         else

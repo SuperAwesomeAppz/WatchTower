@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.os.SystemClock;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -28,7 +29,7 @@ import static com.example.michael.pong.R.drawable.brick;
 //import com.example.michael.pong.Player.Player;
 
 
-public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
+public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
 {
     boolean TargetStillAlive = true;
     public static final int WIDTH = 856;
@@ -38,11 +39,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public static final int MOVESPEED = -5;
     private MainThread thread;
     private Background bg;
+    private boolean currentRoundFinished = false;
     private Background c1;
+    private Background buy;
     private bastion player;
     private Player player1;
     private Bullet bullet;
+    private boolean selectingTower = false;
     private int coins = 200;
+    private int score = 0;
+    private int health = 5000;
+    private int countDead = 0;
+    private int round = 0;
+    private int roundCount = 0;
     private int targetX = 1;
     private int targetY= 1;
     private int b = 500;
@@ -54,6 +63,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private ArrayList<bastion> ArrayOfBastions = new ArrayList<bastion>();
     private ArrayList<Bullet> ArrayOfBullets = new ArrayList<Bullet>();
     public static Canvas canvas;
+    private int [] roundNumber = {12,20,28,36,44,56,68,80,88,100};
 
 
 
@@ -95,23 +105,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1));
         c1 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.circles));
+        buy = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.buy));
         //int y = GamePanel.HEIGHT / 2;
-        int y = 200;
+
         //players arguments are width of frame, height, number of frames, x and y coords
         //player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, 150, y);
         player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, 500, 200);
         //player.setAlpha(50);
-        int counter = 0;
-        for (int i = 0; i < 12; i++) {
-                if (i % 4 == 0)
-                    counter += 150;
-                int x= 0 - counter;
-                counter += 80;
-                //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, x, y);
-                //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, x, y);
-                player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 147, 128, 4, x, y);
-                ArrayOfReapers.add(player1);
-            }
+
         System.out.println("Amount of reapers: " + ArrayOfReapers.size());
         //we can safely start the game loop
         thread.setRunning(true);
@@ -128,7 +129,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 
             int [] spotsX = new int [41];
             int [] spotsY = new int [41];
-            spotsX[0] = 60;
+            spotsX[0] = 60; //all possible x and y values for spots where towers can be placed. Each spot has a radius of 70.
             spotsX[1] = 57;
             spotsX[2] = 127;
             spotsX[3] = 259;
@@ -214,15 +215,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 
             int radius = 70;
 
-            for(int i = 0; i < spotsX.length ; i++) {
-
-                boolean contains = (Math.pow((touchX - spotsX[i]), 2)) + (Math.pow((touchY - spotsY[i]), 2)) < (Math.pow((radius), 2));
-                if(contains == true && coins > player.getPrice()) {
-                    player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, spotsX[i] - 50, spotsY[i] - 90);
-                    ArrayOfBastions.add(player);
-                    coins -= player.getPrice();
-                }
+            boolean checkIfPressedBuy = (Math.pow((touchX - 1500), 2)) + (Math.pow((touchY - 100), 2)) < (Math.pow((500), 2));
+            if (checkIfPressedBuy == true) {
+                selectingTower = true;
+                if(roundCount != 0)
+                    roundCount ++;
             }
+                for (int i = 0; i < spotsX.length && selectingTower == true; i++) {
+
+                    boolean contains = (Math.pow((touchX - spotsX[i]), 2)) + (Math.pow((touchY - spotsY[i]), 2)) < (Math.pow((radius), 2));
+                    if (contains == true && coins >= player.getPrice()) {
+                        player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, spotsX[i] - 50, spotsY[i] - 90);
+                        ArrayOfBastions.add(player);
+                        coins -= player.getPrice();
+                        selectingTower = false;
+                        checkIfPressedBuy = false;
+                    }
+                }
+
 
 
             if(!player.getPlaying())
@@ -262,6 +272,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 
     public void update()
     {
+
+        if(countDead == roundNumber[roundCount]) {
+            currentRoundFinished = false;
+            countDead = 1;
+            roundCount++;
+            round++;
+            for(int i = 0; i < ArrayOfReapers.size(); i++)
+            {
+                ArrayOfReapers.get(i).addHealth(50);
+            }
+        }
+        int counter = 0;
+        int y = 200;
+        for (int i = 0; i < roundNumber[roundCount] && currentRoundFinished == false; i++) {
+            if (i % 4 == 0)
+                counter += 150;
+            int x= 0 - counter;
+            counter += 80;
+            //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, x, y);
+            //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, x, y);
+            player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 147, 128, 4, x, y);
+            ArrayOfReapers.add(player1);
+        }
+        currentRoundFinished = true;
+
         if(player.getPlaying()) {
             bg.update();
             c1.update();
@@ -279,10 +314,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                     ArrayOfReapers.get(i).getCurrentPoint();
                     ArrayOfReapers.get(i).update();
                 }
+                if(ArrayOfReapers.get(i).getX()> 1900 && ArrayOfReapers.get(i).isDead() == false ) //if the enemy gets to the end, minus health.
+                {
+                    health -= 500;
+                    ArrayOfReapers.get(i).kill();
+                }
             }
         }
         boolean inside = false;
         inside = contains();
+        for(int i = 0; i < ArrayOfBullets.size(); i++) {
+            boolean check = ArrayOfBullets.get(i).isFinished();
+        }
     }
     public boolean contains() {
         boolean contains = false;
@@ -316,8 +359,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                             }
                             if (hit == true) {
                                 ArrayOfReapers.get(i).minusHealth();
-                                coins += 20;
-                                System.out.println("You hit a reaper 20 coins have been added.... Current balance: " + coins);
+                                if(ArrayOfReapers.get(i).getHealth() <= 0)
+                                {
+                                    countDead ++;
+                                    coins += 20;
+                                }
+                                score += 20;
 
                                 done = true;
                                 //if (player1.isDead() == true)
@@ -330,16 +377,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         }
         return contains;
     }
-    @Override
+    //@Override
     public void draw(Canvas canvas)
     {
         final float scaleFactorX = 1;//getWidth()/(WIDTH*1.f);
         final float scaleFactorY = 1;//getHeight()/(HEIGHT*1.f);
         if(canvas!=null) {
+
+
+
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);
             bg.draw(canvas);
-            c1.draw(canvas);
+            if(selectingTower == true)
+                c1.draw(canvas);
             for(int i =0; i < ArrayOfReapers.size(); i ++)
             {
                 //player1.draw(canvas);
@@ -367,7 +418,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                 //bullet.draw(canvas);
                 //canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             }
+
+            Paint paint = new Paint();
+            paint.setColor(Color.RED);
+            paint.setTextSize(100);
+            canvas.drawText("Health: " + String.valueOf(health), 1200, 1050, paint);
+            canvas.drawText("Round: " + String.valueOf(round + 1), 40, 1050, paint);
+            paint.setColor(Color.YELLOW);
+            paint.setTextSize(80);
+            canvas.drawText("Gold: " + String.valueOf(coins), 700, 80, paint);
             canvas.restoreToCount(savedState);
+            if(health <= 0) {
+                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.MULTIPLY);
+                paint.setTextSize(200);
+                paint.setColor(Color.RED);
+                canvas.drawText("GAME OVER" , 300, 400, paint);
+                canvas.drawText("Final Score: " + score , 300, 600, paint);
+            }
         }
     }
 }
