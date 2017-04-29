@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">WatchTower</string>
+
+
+    <!-- CUSTOM ACTIONS -->
+
+    <string name="CUSTOM_ACTION_PLAYBUTTON">net.clientuser.droid101.action.PLAYBUTTON</string>
+
+
 </resources>
