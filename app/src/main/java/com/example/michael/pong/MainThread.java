@@ -12,7 +12,7 @@ public class MainThread extends Thread
     private int FPS = 30;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
-    private GamePanel gamePanel;8
+    private GamePanel gamePanel;
     private boolean running;
     public static Canvas canvas;
 
