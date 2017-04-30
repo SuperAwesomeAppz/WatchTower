@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.util.List;
+
 /**
  * Created by Trevor on 17/04/2017.
  */
@@ -19,6 +21,24 @@ public class MainMenu extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        MySQLiteHelper db = new MySQLiteHelper(this);
+
+        /**
+         * CRUD Operations
+         * */
+        // add Books
+        db.addScore(new ScoreBoard("Trevor", 50));
+        db.addScore(new ScoreBoard("Michael", 50));
+        db.addScore(new ScoreBoard("Dan", 3000));
+
+        // get all books
+        List<ScoreBoard> list = db.getAllScores();
+
+        // delete one book
+        //db.deleteScore(list.get(0));
+
+        // get all books
+        db.getAllScores();
 
         setContentView(R.layout.main_menu);
     }

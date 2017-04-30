@@ -152,6 +152,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
 
 
 
+
             int [] spotsX = new int [41];
             int [] spotsY = new int [41];
             spotsX[0] = 60; //all possible x and y values for spots where towers can be placed. Each spot has a radius of 70.
@@ -244,12 +245,14 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             if (checkIfPaused == true) {
                 pauseGame = true;
             }
-            if (pauseGame = true)
+            if(pauseGame == true)
             {
                 if ((touchX >= resumeGame.getX()) && ((resumeGame.getX() + 450) > touchX ) && (touchY >= resumeGame.getY()) && (touchY < (resumeGame.getY() + 85)))
                 {
                     pauseGame = false;
+
                 }
+
                 if ((touchX >= exitToMain.getX()) && ((exitToMain.getX() + 450) > touchX ) && (touchY >= exitToMain.getY()) && (touchY < (exitToMain.getY() + 85)))
                 {
                     pauseGame = false;
