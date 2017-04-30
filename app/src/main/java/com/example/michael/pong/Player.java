@@ -26,7 +26,7 @@ public class Player extends GameObject{
 
     public Player(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
 
-        health = 100;
+        health = 20;
         x = xCoord;
         y = yCoord;
         dy = 100;
@@ -178,9 +178,9 @@ public class Player extends GameObject{
             Finished = true;
 
     }
-    public void minusHealth()
+    public void minusHealth(int damage)
     {
-        health -= 10;
+        health -= damage;
     }
     public boolean isDead()
     {
@@ -217,4 +217,5 @@ public class Player extends GameObject{
     {
         this.y = ReaperY;
     }
+
 }

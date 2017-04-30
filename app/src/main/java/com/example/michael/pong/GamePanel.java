@@ -34,29 +34,37 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
     boolean TargetStillAlive = true;
     public static final int WIDTH = 856;
     public static final int HEIGHT = 480;
+    private int bastionPlace = 0;
     //public static final int WIDTH = 1280;
     //public static final int HEIGHT = 720;
     public static final int MOVESPEED = -5;
     private MainThread thread;
     private Background bg;
+    private button buyTurret;
+    private button pause;
+    private button upgradeTower;
     private boolean currentRoundFinished = false;
     private Background c1;
-    private Background buy;
     private bastion player;
     private Player player1;
     private Bullet bullet;
     private boolean selectingTower = false;
-    private int coins = 200;
+    private boolean upgradingTower = false;
+    private int coins = 20000;
     private int score = 0;
     private int health = 5000;
+    private int upgradeCost;
     private int countDead = 0;
     private int round = 0;
+    private int frame= 0;
     private int roundCount = 0;
     private int targetX = 1;
     private int targetY= 1;
     private int b = 500;
     private int c = 200;
     private boolean hit = false;
+    private int upgradeXValue;
+    private int upgradeYValue;
     private boolean done = true;
     private boolean found = false;
     private ArrayList<Player> ArrayOfReapers = new ArrayList<Player>();
@@ -104,8 +112,11 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
 
 
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1));
+
         c1 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.circles));
-        buy = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.buy));
+        buyTurret = new button(BitmapFactory.decodeResource(getResources(), R.drawable.buy), 1650, 20);
+        pause = new button(BitmapFactory.decodeResource(getResources(), R.drawable.pause), 1800, 20);
+        //buy = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.buy));
         //int y = GamePanel.HEIGHT / 2;
 
         //players arguments are width of frame, height, number of frames, x and y coords
@@ -215,17 +226,59 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
 
             int radius = 70;
 
-            boolean checkIfPressedBuy = (Math.pow((touchX - 1500), 2)) + (Math.pow((touchY - 100), 2)) < (Math.pow((500), 2));
-            if (checkIfPressedBuy == true) {
+            boolean checkIfPressedBuy = (Math.pow((touchX - buyTurret.getX()), 2)) + (Math.pow((touchY - buyTurret.getY()), 2)) < (Math.pow((70), 2));
+            if (checkIfPressedBuy == true && coins >= 100) {
                 selectingTower = true;
                 if(roundCount != 0)
                     roundCount ++;
             }
+
+            if(upgradingTower == true)
+            {
+                if ((touchX >= upgradeXValue) && ((upgradeXValue + 382) > touchX ) && (touchY >= upgradeYValue) && (touchY < (upgradeYValue + 107))) //if the user pressed the upgrade button
+                {
+                    System.out.println("the mouse x ============= " + touchX);
+                    System.out.println("the mouse y ============= " + touchY);
+                    System.out.println("the upgrade image x ============= " + upgradeXValue);
+                    System.out.println("the upgrade image y ============= " + upgradeYValue);
+                    System.out.println("the upgrade image x ============= " + (upgradeXValue + 382));
+                    System.out.println("the upgrade image y ============= " + (upgradeYValue + 107));
+
+                    //System.out.println("the upgrade tower x ============= " + upgradeTower.getX());
+
+                    if(coins >= ArrayOfBastions.get(bastionPlace).getCost()) {
+                        coins -= ArrayOfBastions.get(bastionPlace).getCost();
+                        int currentFrame = ArrayOfBastions.get(bastionPlace).getFrame();
+                        ArrayOfBastions.get(bastionPlace).setFrame(currentFrame + 1);
+                        ArrayOfBastions.get(bastionPlace).upgrade();
+                    }
+                    //upgradingTower = false;
+                }
+            }
+            for(int i = 0; i < ArrayOfBastions.size(); i++) {
+
+
+                boolean checkIfPressedExistingTower = (Math.pow((touchX - ArrayOfBastions.get(i).getX()), 2)) + (Math.pow((touchY -ArrayOfBastions.get(i).getY()), 2)) < (Math.pow((70), 2));
+                if (checkIfPressedExistingTower == true) {
+                    bastionPlace = i;
+                    upgradeXValue = ArrayOfBastions.get(i).getX() -120 ;
+                    upgradeYValue = ArrayOfBastions.get(i).getY() + 110 ;
+                    upgradeTower = new button(BitmapFactory.decodeResource(getResources(), R.drawable.upgradetower), ArrayOfBastions.get(i).getX()-120,ArrayOfBastions.get(i).getY() + 110);
+                    upgradeCost = ArrayOfBastions.get(i).getCost();
+                    upgradingTower = true;
+
+                }
+
+            }
+
+
+
                 for (int i = 0; i < spotsX.length && selectingTower == true; i++) {
 
                     boolean contains = (Math.pow((touchX - spotsX[i]), 2)) + (Math.pow((touchY - spotsY[i]), 2)) < (Math.pow((radius), 2));
                     if (contains == true && coins >= player.getPrice()) {
-                        player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, spotsX[i] - 50, spotsY[i] - 90);
+                        //player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.bastion), 111, 158, 3, spotsX[i] - 50, spotsY[i] - 90);
+                        player = new bastion(BitmapFactory.decodeResource(getResources(), R.drawable.tower), 122, 122, 3, spotsX[i] -53 , spotsY[i] - 62);
                         ArrayOfBastions.add(player);
                         coins -= player.getPrice();
                         selectingTower = false;
@@ -272,7 +325,10 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
 
     public void update()
     {
-
+        for(int i = 0; i < ArrayOfBastions.size(); i++)
+        {
+            ArrayOfBastions.get(i).upgrade();
+        }
         if(countDead == roundNumber[roundCount]) {
             currentRoundFinished = false;
             countDead = 1;
@@ -358,7 +414,16 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                                     ArrayOfBullets.remove(ArrayOfBullets.get(k));
                             }
                             if (hit == true) {
-                                ArrayOfReapers.get(i).minusHealth();
+                                int damage = 10;
+                                int currentFrame = ArrayOfBastions.get(j).getFrame();
+                                if(currentFrame == 0)
+                                    damage = 10;
+                                if(currentFrame == 1)
+                                    damage = 20;
+                                if(currentFrame == 3)
+                                    damage = 30;
+
+                                ArrayOfReapers.get(i).minusHealth(damage);
                                 if(ArrayOfReapers.get(i).getHealth() <= 0)
                                 {
                                     countDead ++;
@@ -389,6 +454,16 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);
             bg.draw(canvas);
+            buyTurret.draw(canvas);
+            pause.draw(canvas);
+            if(upgradingTower == true) {
+                upgradeTower.draw(canvas);
+                Paint paint = new Paint();
+                paint.setColor(Color.RED);
+                paint.setTextSize(50);
+                canvas.drawText("UPGRADE: " + upgradeCost, upgradeXValue + 20, upgradeYValue + 70, paint);
+
+            }
             if(selectingTower == true)
                 c1.draw(canvas);
             for(int i =0; i < ArrayOfReapers.size(); i ++)
@@ -436,5 +511,5 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 canvas.drawText("Final Score: " + score , 300, 600, paint);
             }
         }
-    }
+}
 }

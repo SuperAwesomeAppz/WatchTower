@@ -27,6 +27,8 @@ public class bastion extends GameObject{
     private Bitmap spritesheet;
     private int score;
     private int radius;
+    private int cost;
+    private int frame;
     private double dya;
     private boolean up;
     private boolean playing;
@@ -37,7 +39,9 @@ public class bastion extends GameObject{
     public static final int HEIGHT = 480;
 
     public bastion(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
+        frame = 0;
         radius = 300;
+        cost = 100;
         x = xCoord;
         y = yCoord;
         dy = 100;
@@ -109,11 +113,21 @@ public class bastion extends GameObject{
     public int getScore(){return score;}
     public boolean getPlaying(){return playing;}
     public void setPlaying(boolean b){playing = b;}
+    public int getCost(){
+        if(frame ==0)
+            cost = 250;
+        if (frame == 1)
+            cost = 500;
+        return cost;
+    }
     public int getRadius(){return radius;}
     public int getX(){return x;}
     public int getY(){return y;}
     public void resetDYA(){dya = 0;}
     public void resetScore(){score = 0;}
+    public int getFrame(){return frame;}
+    public void setFrame(int newFrame){frame = newFrame;}
+    public void upgrade() { animation.setToOneFrame();animation.setFrame(frame);}
     public double getPrice(){
         return 100;
     }
