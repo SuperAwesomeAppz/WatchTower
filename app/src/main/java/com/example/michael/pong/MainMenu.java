@@ -46,6 +46,11 @@ public class MainMenu extends Activity {
                 startActivity(intent);
                 break;
             }
+            case R.id.button_score: {
+                Intent intent = new Intent(this.getString(R.string.CUSTOM_ACTION_SCOREBUTTON));
+                startActivity(intent);
+                break;
+            }
         }
     }
 }

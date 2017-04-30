@@ -384,7 +384,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             counter += 120;
             //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, x, y);
             //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, x, y);
-            player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.enemy), 141, 152, 16, x, y);
+            player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.enemy), 133, 133, 16, x, y);
 
             ArrayOfReapers.add(player1);
 

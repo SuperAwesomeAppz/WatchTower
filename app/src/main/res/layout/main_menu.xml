@@ -13,29 +13,30 @@
     tools:context=".MainMenu">
 
     <ImageButton
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/scorebutton"
+        android:id="@+id/button_score"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/button_play"
+        android:layout_alignLeft="@+id/button_play"
+        android:layout_alignStart="@+id/button_play"
+        android:onClick="sendMessage"/>
+
+    <ImageButton
         android:layout_width="wrap_content"
         android:background="@null"
         android:layout_height="wrap_content"
         android:src="@drawable/playbutton"
         android:id="@+id/button_play"
         android:visibility="visible"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginStart="33dp"
         android:cropToPadding="false"
         android:adjustViewBounds="false"
-        android:layout_alignParentTop="true"
+        android:onClick="sendMessage"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="sendMessage"/>
-
-    <ImageButton
-        android:background="@null"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/scorebutton"
-        android:id="@+id/button_score"
-        android:layout_below="@+id/button_play"
-        android:layout_alignLeft="@+id/button_play"
-        android:layout_alignStart="@+id/button_play" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

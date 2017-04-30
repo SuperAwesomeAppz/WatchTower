@@ -37,6 +37,17 @@
 
         </activity>
 
+        <activity
+            android:screenOrientation="landscape"
+            android:name=".ScoreBoard">
+
+            <intent-filter>
+                <action android:name="net.clientuser.droid101.action.SCOREBUTTON" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+
     </application>
 
 </manifest>
