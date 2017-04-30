@@ -40,13 +40,12 @@ public class MainMenu extends Activity {
     public void sendMessage(View view) {
 
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.button_play: {
                 Intent intent = new Intent(this.getString(R.string.CUSTOM_ACTION_PLAYBUTTON));
                 startActivity(intent);
                 break;
             }
         }
-        System.out.println("hello there");
     }
 }

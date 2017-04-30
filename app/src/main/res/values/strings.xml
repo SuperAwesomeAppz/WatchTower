@@ -5,6 +5,6 @@
     <!-- CUSTOM ACTIONS -->
 
     <string name="CUSTOM_ACTION_PLAYBUTTON">net.clientuser.droid101.action.PLAYBUTTON</string>
-
+    <string name="CUSTOM_ACTION_EXITBUTTON">net.clientuser.droid101.action.EXITBUTTON</string>
 
 </resources>

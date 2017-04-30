@@ -4,7 +4,11 @@ package com.example.michael.pong;
  * Created by Michael on 18/02/2017.
  */
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import java.util.*;
@@ -40,9 +44,12 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
     public static final int MOVESPEED = -5;
     private MainThread thread;
     private Background bg;
+    private Background darken;
     private button buyTurret;
     private button pause;
     private button upgradeTower;
+    private button resumeGame;
+    private button exitToMain;
     private boolean currentRoundFinished = false;
     private Background c1;
     private bastion player;
@@ -50,6 +57,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
     private Bullet bullet;
     private boolean selectingTower = false;
     private boolean upgradingTower = false;
+    private boolean pauseGame = false;
     private int coins = 20000;
     private int score = 0;
     private int health = 5000;
@@ -112,10 +120,12 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
 
 
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1));
-
+        darken = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.darken));
         c1 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.circles));
         buyTurret = new button(BitmapFactory.decodeResource(getResources(), R.drawable.buy), 1650, 20);
         pause = new button(BitmapFactory.decodeResource(getResources(), R.drawable.pause), 1800, 20);
+        resumeGame = new button(BitmapFactory.decodeResource(getResources(), R.drawable.resumeoption), 775, 475);
+        exitToMain = new button(BitmapFactory.decodeResource(getResources(), R.drawable.exitoption), 775, 575);
         //buy = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.buy));
         //int y = GamePanel.HEIGHT / 2;
 
@@ -227,6 +237,25 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             spotsY[40] = 967;
 
             int radius = 70;
+
+            boolean checkIfPaused = (Math.pow((touchX - pause.getX()), 2)) + (Math.pow((touchY - pause.getY()), 2)) < (Math.pow((70), 2));
+            if (checkIfPaused == true) {
+                pauseGame = true;
+            }
+            if (pauseGame = true)
+            {
+                if ((touchX >= resumeGame.getX()) && ((resumeGame.getX() + 450) > touchX ) && (touchY >= resumeGame.getY()) && (touchY < (resumeGame.getY() + 85)))
+                {
+                    pauseGame = false;
+                }
+                if ((touchX >= exitToMain.getX()) && ((exitToMain.getX() + 450) > touchX ) && (touchY >= exitToMain.getY()) && (touchY < (exitToMain.getY() + 85)))
+                {
+                    pauseGame = false;
+                    exit();
+                }
+            }
+
+
 
             boolean checkIfPressedBuy = (Math.pow((touchX - buyTurret.getX()), 2)) + (Math.pow((touchY - buyTurret.getY()), 2)) < (Math.pow((70), 2));
             if (checkIfPressedBuy == true && coins >= 100) {
@@ -468,6 +497,9 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             }
             if(selectingTower == true)
                 c1.draw(canvas);
+
+
+
             for(int i =0; i < ArrayOfReapers.size(); i ++)
             {
                 //player1.draw(canvas);
@@ -512,6 +544,18 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 canvas.drawText("GAME OVER" , 300, 400, paint);
                 canvas.drawText("Final Score: " + score , 300, 600, paint);
             }
+
+            if(pauseGame == true)
+            {
+                darken.draw(canvas);
+                resumeGame.draw(canvas);
+                exitToMain.draw(canvas);
+            }
         }
-}
+
+    }
+    private void exit()
+    {
+        //Activity.finish();
+    }
 }
