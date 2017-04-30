@@ -138,6 +138,8 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             int touchX = (int)event.getX();
             int touchY = (int)event.getY();
 
+
+
             int [] spotsX = new int [41];
             int [] spotsY = new int [41];
             spotsX[0] = 60; //all possible x and y values for spots where towers can be placed. Each spot has a radius of 70.
@@ -340,15 +342,15 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             }
         }
         int counter = 0;
-        int y = 200;
+        int y = 465;
         for (int i = 0; i < roundNumber[roundCount] && currentRoundFinished == false; i++) {
             if (i % 4 == 0)
                 counter += 150;
             int x= 0 - counter;
-            counter += 80;
+            counter += 120;
             //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, x, y);
             //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, x, y);
-            player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 147, 128, 4, x, y);
+            player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.enemy), 141, 152, 16, x, y);
             ArrayOfReapers.add(player1);
         }
         currentRoundFinished = true;

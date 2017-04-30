@@ -26,7 +26,7 @@ public class Player extends GameObject{
 
     public Player(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
 
-        health = 20;
+        health = 100;
         x = xCoord;
         y = yCoord;
         dy = 100;
@@ -40,7 +40,7 @@ public class Player extends GameObject{
         {
             image[i] = Bitmap.createBitmap(spritesheet, i*width, 0, width, height);
         }
-
+        animation.setReaper();
         animation.setFrames(image);
         animation.setDelay(360);
         startTime = System.nanoTime();
@@ -115,41 +115,41 @@ public class Player extends GameObject{
         Ypoints[14] = 180;
         Ypoints[15] = 180;*/
         int Xpoints[] = new int[16];
-        Xpoints[0] = 200;
-        Xpoints[1] = 200;
-        Xpoints[2] = 433;
-        Xpoints[3] = 433;
-        Xpoints[4] = 656;
-        Xpoints[5] = 656;
-        Xpoints[6] = 928;
-        Xpoints[7] = 928;
-        Xpoints[8] = 652;
-        Xpoints[9] = 652;
-        Xpoints[10] = 1152;
-        Xpoints[11] = 1152;
-        Xpoints[12] = 1486;
-        Xpoints[13] = 1486;
+        Xpoints[0] = 143;
+        Xpoints[1] = 139;
+        Xpoints[2] = 449;
+        Xpoints[3] = 453;
+        Xpoints[4] = 689;
+        Xpoints[5] = 701;
+        Xpoints[6] = 1036;
+        Xpoints[7] = 1032;
+        Xpoints[8] = 771;
+        Xpoints[9] = 771;
+        Xpoints[10] = 1288;
+        Xpoints[11] = 1296;
+        Xpoints[12] = 1627;
+        Xpoints[13] = 1635;
         Xpoints[14] = 1900;
         Xpoints[15] = 2000;
         int Ypoints[] = new int[16];
-        Ypoints[0] = 490;
-        Ypoints[1] = 200;
-        Ypoints[2] = 200;
-        Ypoints[3] = 562;
-        Ypoints[4] = 562;
-        Ypoints[5] = 892;
-        Ypoints[6] = 892;
-        Ypoints[7] = 339;
-        Ypoints[8] = 339;
-        Ypoints[9] = 174;
-        Ypoints[10] = 174;
-        Ypoints[11] = 711;
-        Ypoints[12] = 711;
-        Ypoints[13] = 484;
-        Ypoints[14] = 484;
-        Ypoints[15] = 484;
+        Ypoints[0] = 488;
+        Ypoints[1] = 178;
+        Ypoints[2] = 174;
+        Ypoints[3] = 595;
+        Ypoints[4] = 612;
+        Ypoints[5] = 868;
+        Ypoints[6] = 872;
+        Ypoints[7] = 377;
+        Ypoints[8] = 364;
+        Ypoints[9] = 112;
+        Ypoints[10] = 108;
+        Ypoints[11] = 678;
+        Ypoints[12] = 690;
+        Ypoints[13] = 401;
+        Ypoints[14] = 401;
+        Ypoints[15] = 401;
 
-
+        int pointsEast [] = {0,1,3,5,7,8,14};
 
         double sx = x;
         double sy = y;
@@ -157,7 +157,7 @@ public class Player extends GameObject{
         double deltaX =  Xpoints[countX] - sx;//800 - sx;
         double deltaY = Ypoints[countY] - sy;//L - sy;
         double angle = Math.atan2( deltaY, deltaX );
-        int speed = 6;
+        int speed = 7;
         if(Finished != true) {
             x += speed * Math.cos(angle);
             y += speed * Math.sin(angle);
@@ -166,6 +166,16 @@ public class Player extends GameObject{
         if(x > (Xpoints[countX] -5) && x < (Xpoints[countX] + 5) && y > (Ypoints[countY] -5) && y < (Ypoints[countY] + 5)) {
             countX++;
             countY++;
+            for(int i = 0; i < 7;i++) {
+
+                if (countX == pointsEast[i]) {
+                    System.out.println("oh shit waddup");
+                    this.animation.setDirection("east");
+                }
+                else
+                    this.animation.setDirection("south");
+                    //System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+            }
             //System.out.println("MATCH!!!    " + countX);
         }
         Canvas canvas = new Canvas();
@@ -174,7 +184,7 @@ public class Player extends GameObject{
             canvas.rotate(90, x + (115 / 2), y + (160 / 2));
         }
 
-        if(countX == 15)
+        if(countX == 16)
             Finished = true;
 
     }
