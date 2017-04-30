@@ -276,16 +276,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             {
                 if ((touchX >= upgradeXValue) && ((upgradeXValue + 382) > touchX ) && (touchY >= upgradeYValue) && (touchY < (upgradeYValue + 107))) //if the user pressed the upgrade button
                 {
-                    System.out.println("the mouse x ============= " + touchX);
-                    System.out.println("the mouse y ============= " + touchY);
-                    System.out.println("the upgrade image x ============= " + upgradeXValue);
-                    System.out.println("the upgrade image y ============= " + upgradeYValue);
-                    System.out.println("the upgrade image x ============= " + (upgradeXValue + 382));
-                    System.out.println("the upgrade image y ============= " + (upgradeYValue + 107));
-
-                    //System.out.println("the upgrade tower x ============= " + upgradeTower.getX());
-
-                    if(coins >= ArrayOfBastions.get(bastionPlace).getCost() && ArrayOfBastions.get(bastionPlace).getFrame() != 2 ) {
+                        if(coins >= ArrayOfBastions.get(bastionPlace).getCost() && ArrayOfBastions.get(bastionPlace).getFrame() != 2 ) {
                         coins -= ArrayOfBastions.get(bastionPlace).getCost();
                         int currentFrame = ArrayOfBastions.get(bastionPlace).getFrame();
                         ArrayOfBastions.get(bastionPlace).setFrame(currentFrame + 1);
@@ -293,6 +284,8 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                     }
                     upgradingTower = false;
                 }
+                else
+                    upgradingTower = false;
             }
             for(int i = 0; i < ArrayOfBastions.size(); i++) {
 

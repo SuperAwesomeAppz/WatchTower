@@ -151,7 +151,10 @@ public class Player extends GameObject{
         Ypoints[14] = 401;
         Ypoints[15] = 401;
 
-        int pointsEast [] = {0,1,3,5,7,8,14};
+        int pointsEast [] = {0,2,4,6,10,12,14,15};
+        int pointsWest [] = {8};
+        int pointsNorth [] = {1,7,9,13};
+        int pointsSouth [] = {3,5,11};
 
         double sx = x;
         double sy = y;
@@ -165,7 +168,7 @@ public class Player extends GameObject{
             y += speed * Math.sin(angle);
         }
 
-        if(x > (Xpoints[countX] -5) && x < (Xpoints[countX] + 5) && y > (Ypoints[countY] -5) && y < (Ypoints[countY] + 5)) {
+        /*if(x > (Xpoints[countX] -5) && x < (Xpoints[countX] + 5) && y > (Ypoints[countY] -5) && y < (Ypoints[countY] + 5)) {
             countX++;
             countY++;
             for(int i = 0; i < 7;i++) {
@@ -179,7 +182,35 @@ public class Player extends GameObject{
                     //System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
             }
             //System.out.println("MATCH!!!    " + countX);
-        }
+        }*/
+        if(x > (Xpoints[countX] -5) && x < (Xpoints[countX] + 5) && y > (Ypoints[countY] -5) && y < (Ypoints[countY] + 5)) {
+            countX++;
+            countY++;
+
+            for(int i = 0; i < pointsEast.length;i++) {
+                if (countX == pointsEast[i]) {
+                    System.out.println("going east");
+                    this.animation.setDirection("east");
+                }
+            }
+            for(int i = 0; i < pointsWest.length;i++) {
+                if (countX == pointsWest[i]) {
+                    System.out.println("going west");
+                    this.animation.setDirection("west");
+                }
+            }
+            for(int i = 0; i < pointsNorth.length;i++) {
+                if (countX == pointsNorth[i]) {
+                    System.out.println("going north");
+                    this.animation.setDirection("north");
+                }
+            }
+            for(int i = 0; i < pointsSouth.length;i++) {
+                if (countX == pointsSouth[i]) {
+                    System.out.println("going south");
+                    this.animation.setDirection("south");
+                }
+            }
         Canvas canvas = new Canvas();
         if(countX == 1) {
             //System.out.print("Here");
@@ -189,6 +220,7 @@ public class Player extends GameObject{
         if(countX == 16)
             Finished = true;
 
+    }
     }
     public void minusHealth(int damage)
     {

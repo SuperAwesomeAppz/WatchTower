@@ -38,6 +38,30 @@ public class Animation {
             currentFrame = 0;
             playedOnce = true;
         }
+        /*if(elapsed>delay && reaper == true)
+        {
+            if(direction.equalsIgnoreCase("east"))
+            {
+                currentFrame++;
+                if(currentFrame >= 4)
+                    currentFrame = 0;
+                startTime = System.nanoTime();
+
+            }
+            if(direction.equalsIgnoreCase("south"))
+            {
+                currentFrame++;
+                if(currentFrame <=4)
+                    currentFrame = 4;
+                if(currentFrame >= 8)
+                    currentFrame = 4;
+                currentFrame++;
+                startTime = System.nanoTime();
+                if(currentFrame == 8)
+                    currentFrame = 4;
+            }
+
+        }*/
         if(elapsed>delay && reaper == true)
         {
             if(direction.equalsIgnoreCase("east"))
@@ -59,6 +83,32 @@ public class Animation {
                 startTime = System.nanoTime();
                 if(currentFrame == 8)
                     currentFrame = 4;
+            }
+
+            if(direction.equalsIgnoreCase("north"))
+            {
+                currentFrame++;
+                if(currentFrame <=11)
+                    currentFrame = 12;
+                if(currentFrame ==16)
+                    currentFrame = 12;
+                currentFrame++;
+                startTime = System.nanoTime();
+                if(currentFrame == 0)
+                    currentFrame = 12;
+            }
+
+            if(direction.equalsIgnoreCase("west"))
+            {
+                currentFrame++;
+                if(currentFrame <=8)
+                    currentFrame = 8;
+                if(currentFrame >= 12)
+                    currentFrame = 8;
+                currentFrame++;
+                startTime = System.nanoTime();
+                if(currentFrame == 12)
+                    currentFrame = 8;
             }
 
         }
