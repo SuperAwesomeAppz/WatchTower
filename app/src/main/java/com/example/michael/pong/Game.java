@@ -1,6 +1,7 @@
 package com.example.michael.pong;
 
 //import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.app.Activity;
@@ -60,5 +61,17 @@ public class Game extends Activity {
        // }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void returnToMenu()
+        {
+            //Intent intent = new Intent(this.getString(R.string.CUSTOM_ACTION_EXITBUTTON) );
+            this.finish();
+            MainMenu h = new MainMenu();
+        ///Intent intent = new Intent(this.getString(R.string.CUSTOM_ACTION_EXITBUTTON) );
+        //startActivity(intent);
+
+            //Intent intent=new Intent();
+            //intent.setClass(intentintent.getClass());
+            //startActivity(intent);
     }
 }

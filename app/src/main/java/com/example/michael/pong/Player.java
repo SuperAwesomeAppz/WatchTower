@@ -12,6 +12,7 @@ public class Player extends GameObject{
     private Bitmap spritesheet;
     private int score;
     private int health;
+    private int fullHealth;
     private double dya;
     private boolean up;
     private boolean dead = false;
@@ -27,6 +28,7 @@ public class Player extends GameObject{
     public Player(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
 
         health = 100;
+        fullHealth = 100;
         x = xCoord;
         y = yCoord;
         dy = 100;
@@ -217,7 +219,14 @@ public class Player extends GameObject{
     {
         return health;
     }
-    public void addHealth(int newHealth) {health += newHealth; }
+    public int getFullHealth()
+    {
+        return fullHealth;
+    }
+    public void addHealth(int newHealth) {
+        health += newHealth;
+        fullHealth = health;
+    }
     public void kill(){ health = 0;}
     public void setX(int ReaperX)
     {

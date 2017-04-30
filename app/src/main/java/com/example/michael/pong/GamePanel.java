@@ -45,6 +45,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
     private MainThread thread;
     private Background bg;
     private Background darken;
+    private HealthBar enemyHealth;
     private button buyTurret;
     private button pause;
     private button upgradeTower;
@@ -78,6 +79,8 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
     private ArrayList<Player> ArrayOfReapers = new ArrayList<Player>();
     private ArrayList<bastion> ArrayOfBastions = new ArrayList<bastion>();
     private ArrayList<Bullet> ArrayOfBullets = new ArrayList<Bullet>();
+
+    private ArrayList<HealthBar> ArrayOfHealthBars = new ArrayList<HealthBar>();
     public static Canvas canvas;
     private int [] roundNumber = {12,20,28,36,44,56,68,80,88,100};
 
@@ -93,15 +96,14 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
         getHolder().addCallback(this);
 
         thread = new MainThread(getHolder(), this);
-
         //make gamePanel focusable so it can handle events
         setFocusable(true);
     }
 
-    @Override
+   @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){}
 
-    @Override
+   @Override
     public void surfaceDestroyed(SurfaceHolder holder){
         boolean retry = true;
         while(retry)
@@ -251,7 +253,13 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 if ((touchX >= exitToMain.getX()) && ((exitToMain.getX() + 450) > touchX ) && (touchY >= exitToMain.getY()) && (touchY < (exitToMain.getY() + 85)))
                 {
                     pauseGame = false;
-                    exit();
+                    //exit();
+                    Game buffer = new Game();
+                    //MainMenu ok = new MainMenu();
+                    buffer.returnToMenu();
+                    //thread.interrupt();
+                    //surfaceDestroyed(getHolder());
+                    //surfaceCreated(getHolder());
                 }
             }
 
@@ -360,6 +368,10 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
         {
             ArrayOfBastions.get(i).upgrade();
         }
+        for(int i = 0; i < ArrayOfHealthBars.size();i++)
+        {
+            ArrayOfHealthBars.get(i).upgrade();
+        }
         if(countDead == roundNumber[roundCount]) {
             currentRoundFinished = false;
             countDead = 1;
@@ -380,7 +392,12 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 145, 126, 4, x, y);
             //player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, x, y);
             player1 = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.enemy), 141, 152, 16, x, y);
+
             ArrayOfReapers.add(player1);
+
+            enemyHealth = new HealthBar(BitmapFactory.decodeResource(getResources(), R.drawable.health), 85, 10, 3, x, y + 20);
+            ArrayOfHealthBars.add(enemyHealth);
+
         }
         currentRoundFinished = true;
 
@@ -399,7 +416,21 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 if(ArrayOfReapers.get(i).isDead() != true)
                 {
                     ArrayOfReapers.get(i).getCurrentPoint();
+                    ArrayOfHealthBars.get(i).setCoords(ArrayOfReapers.get(i).getX() + 10,ArrayOfReapers.get(i).getY() + 20);
                     ArrayOfReapers.get(i).update();
+
+                    double currentHealth = ArrayOfReapers.get(i).getHealth();
+                    double fullHealth = ArrayOfReapers.get(i).getFullHealth();
+                    double percentOfFullHealth = (currentHealth/fullHealth) * 100;
+                    if(percentOfFullHealth <= 66 && percentOfFullHealth >= 33)
+                        ArrayOfHealthBars.get(i).setFrame(1);
+                    else if(percentOfFullHealth <= 33) {
+                        System.out.println(percentOfFullHealth +" is definitly less than or equal to " + 33);
+                        ArrayOfHealthBars.get(i).setFrame(2);
+                    }
+
+                    //ArrayOfHealthBars.get(i).upgrade();
+                    //ArrayOfHealthBars.get(i).update();
                 }
                 if(ArrayOfReapers.get(i).getX()> 1900 && ArrayOfReapers.get(i).isDead() == false ) //if the enemy gets to the end, minus health.
                 {
@@ -503,8 +534,10 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             for(int i =0; i < ArrayOfReapers.size(); i ++)
             {
                 //player1.draw(canvas);
-                if(ArrayOfReapers.get(i).isDead() == false)
+                if(ArrayOfReapers.get(i).isDead() == false) {
                     ArrayOfReapers.get(i).draw(canvas);
+                    ArrayOfHealthBars.get(i).draw(canvas);
+                }
             }
             //canvas.rotate(90, player.getX() + (115 / 2), player.getY() + (160 / 2));
            // player.draw(canvas);
@@ -543,7 +576,8 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 paint.setColor(Color.RED);
                 canvas.drawText("GAME OVER" , 300, 400, paint);
                 canvas.drawText("Final Score: " + score , 300, 600, paint);
-            }
+
+             }
 
             if(pauseGame == true)
             {
