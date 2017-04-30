@@ -246,20 +246,20 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
 
                     //System.out.println("the upgrade tower x ============= " + upgradeTower.getX());
 
-                    if(coins >= ArrayOfBastions.get(bastionPlace).getCost()) {
+                    if(coins >= ArrayOfBastions.get(bastionPlace).getCost() && ArrayOfBastions.get(bastionPlace).getFrame() != 2 ) {
                         coins -= ArrayOfBastions.get(bastionPlace).getCost();
                         int currentFrame = ArrayOfBastions.get(bastionPlace).getFrame();
                         ArrayOfBastions.get(bastionPlace).setFrame(currentFrame + 1);
                         ArrayOfBastions.get(bastionPlace).upgrade();
                     }
-                    //upgradingTower = false;
+                    upgradingTower = false;
                 }
             }
             for(int i = 0; i < ArrayOfBastions.size(); i++) {
 
 
                 boolean checkIfPressedExistingTower = (Math.pow((touchX - ArrayOfBastions.get(i).getX()), 2)) + (Math.pow((touchY -ArrayOfBastions.get(i).getY()), 2)) < (Math.pow((70), 2));
-                if (checkIfPressedExistingTower == true) {
+                if (checkIfPressedExistingTower == true && ArrayOfBastions.get(i).getFrame() != 2) {
                     bastionPlace = i;
                     upgradeXValue = ArrayOfBastions.get(i).getX() -120 ;
                     upgradeYValue = ArrayOfBastions.get(i).getY() + 110 ;
