@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 
-public class Player extends GameObject{
+public class Enemy extends GameObject{
     private Bitmap spritesheet;
     private int score;
     private int health;
@@ -25,7 +25,7 @@ public class Player extends GameObject{
     //private int value1;
     //private int value2;
 
-    public Player(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
+    public Enemy(Bitmap res, int w, int h, int numFrames, int  xCoord, int yCoord) {
 
         health = 100;
         fullHealth = 100;

@@ -23,7 +23,7 @@ import android.view.MotionEvent;
  /* Created by Michael on 23/02/2017.
  */
 
-public class bastion extends GameObject{
+public class Tower extends GameObject{
     private Bitmap spritesheet;
     private int score;
     private int radius;
@@ -38,7 +38,7 @@ public class bastion extends GameObject{
     public static final int WIDTH = 856;
     public static final int HEIGHT = 480;
 
-    public bastion(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord) {
+    public Tower(Bitmap res, int w, int h, int numFrames, int  xCoord, int yCoord) {
         frame = 0;
         radius = 300;
         cost = 100;
@@ -80,7 +80,7 @@ public class bastion extends GameObject{
 
         //canvas.save();
         //canvas.rotate(45, x + (111 / 2), y + (158 / 2));
-        //canvas.drawBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.bastion)), 10, 5, null);
+        //canvas.drawBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.Tower)), 10, 5, null);
         //canvas.restore();
 
 

@@ -1,7 +1,6 @@
 package com.example.michael.pong;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 /**
@@ -23,12 +22,12 @@ public class Bullet extends GameObject{
     private int countX = 0;
     private int countY = 0;
     private boolean Finished = false;
-    private Player reaper;
+    private Enemy reaper;
     //private boolean hit = false;
     //private int value1;
     //private int value2;
 
-    public Bullet(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord, int targetX, int targetY, Player reaper) {
+    public Bullet(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord, int targetX, int targetY, Enemy reaper) {
 
         health = 250;
         x = xCoord;
