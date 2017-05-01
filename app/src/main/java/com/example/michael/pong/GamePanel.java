@@ -296,7 +296,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             countDead = 1;
             roundCount++;
             round++;
-            ArrayOfBullets.clear();
+            //ArrayOfBullets.clear();
             ArrayOfReapers.clear();
         }
         int counter = 150;
