@@ -39,13 +39,13 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
     private Bullet bullet;
     private boolean selectingTower = false;
     private boolean upgradingTower = false;
-    private int coins = 350;
+    private int coins = 35000;
     private int score = 0;
     private int health = 5000;
     private int upgradeCost;
     private int countDead = 0;
     private int round = 0;
-    private int roundCount = 0;
+    private int roundCount = 6;
     private int targetX = 1;
     private int targetY= 1;
     private int b = 500;
@@ -215,8 +215,6 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             if (checkIfPressedBuy == true && coins >= 100) {
                 selectingTower = true;
             }
-            else
-                selectingTower = false;
 
             if(upgradingTower == true)
             {
@@ -394,11 +392,14 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                         draw(canvas);
                         done = false;
                     }
+
                         if (ArrayOfReapers.get(i).isDead() == false) {
                             for(int k =0; k < ArrayOfBullets.size(); k++) {
                                 hit = ArrayOfBullets.get(k).getCurrentPoints();
-                                if(hit == true)
+                                if(hit == true) {
                                     ArrayOfBullets.remove(ArrayOfBullets.get(k));
+
+                                }
                             }
                             if (hit == true) {
                                 int damage = 10;
@@ -422,6 +423,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                                 done = true;
                             }
                         }
+
                 }
             }
         }
