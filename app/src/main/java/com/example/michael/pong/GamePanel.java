@@ -316,7 +316,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
         }
         for(int i = 0; i < ArrayOfReapers.size() && currentRoundFinished == false; i++)
         {
-            ArrayOfReapers.get(i).addHealth(50 * roundCount);
+            ArrayOfReapers.get(i).addHealth(100 * roundCount);
             System.out.println(ArrayOfReapers.get(i).getHealth());
         }
         currentRoundFinished = true;
