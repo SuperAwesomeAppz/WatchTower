@@ -24,7 +24,8 @@ public class Background {
     }
     public void draw(Canvas canvas)
     {
-        Bitmap scaled = Bitmap.createScaledBitmap(image, 1920, 1080, true);
+        //Bitmap scaled = Bitmap.createScaledBitmap(image, 1920, 1080, true);
+        Bitmap scaled = Bitmap.createScaledBitmap(image, 1280, 720, true);
 
 
         canvas.drawBitmap(scaled, x, y,null);

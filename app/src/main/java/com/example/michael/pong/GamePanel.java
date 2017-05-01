@@ -215,6 +215,8 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             if (checkIfPressedBuy == true && coins >= 100) {
                 selectingTower = true;
             }
+            else
+                selectingTower = false;
 
             if(upgradingTower == true)
             {
@@ -363,8 +365,8 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 if(ArrayOfReapers.get(i).getX()> 1900 && ArrayOfReapers.get(i).isDead() == false ) //if the enemy gets to the end, minus health.
                 {
                     health -= 500;
-                    ArrayOfReapers.get(i).kill();
-                    ArrayOfReapers.remove(i);
+                    //ArrayOfReapers.get(i).kill();
+                    //ArrayOfReapers.remove(i);
                     countDead++;
                 }
             }
@@ -387,7 +389,6 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                     }
                     if (done == true) {
                         bullet = new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.bullets), 72, 63, 4, arrayOfTowers.get(j).getX(),  arrayOfTowers.get(j).getY(),targetX,targetY, ArrayOfReapers.get(i));
-                        System.out.println("I made it to new bullet!");
                         ArrayOfBullets.add(bullet);
 
                         draw(canvas);
