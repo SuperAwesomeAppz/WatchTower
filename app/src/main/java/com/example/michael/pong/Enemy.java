@@ -25,7 +25,7 @@ public class Enemy extends GameObject{
 
     public Enemy(Bitmap res, int w, int h, int numFrames, int  xCoord, int yCoord) {
 
-        health = 150;
+        health = 170;
         fullHealth = health;
         x = xCoord;
         y = yCoord;

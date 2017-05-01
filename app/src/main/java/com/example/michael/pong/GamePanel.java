@@ -40,7 +40,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
     private boolean selectingTower = false;
     private boolean upgradingTower = false;
     private boolean wonGame = false;
-    private int coins = 350;
+    private int coins = 300;
     private int score = 0;
     private int health = 5000;
     private int upgradeCost;
@@ -331,7 +331,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
         }
         for(int i = 0; i < ArrayOfReapers.size() && currentRoundFinished == false; i++)
         {
-            ArrayOfReapers.get(i).addHealth(100 * roundCount);
+            ArrayOfReapers.get(i).addHealth(120 * roundCount);
             System.out.println(ArrayOfReapers.get(i).getHealth());
         }
         currentRoundFinished = true;
@@ -366,8 +366,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 if(ArrayOfReapers.get(i).getX()> 1900 && ArrayOfReapers.get(i).isDead() == false ) //if the enemy gets to the end, minus health.
                 {
                     health -= 500;
-                    //ArrayOfReapers.get(i).kill();
-                    //ArrayOfReapers.remove(i);
+                    ArrayOfReapers.remove(i);
                     countDead++;
                 }
             }
@@ -493,6 +492,10 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.MULTIPLY);
                 paint.setTextSize(200);
                 paint.setColor(Color.RED);
+                ArrayOfReapers.clear();
+                ArrayOfBullets.clear();
+                ArrayOfHealthBars.clear();
+                arrayOfTowers.clear();
                 canvas.drawText("GAME OVER" , 300, 400, paint);
                 canvas.drawText("Final Score: " + score , 300, 600, paint);
              }
