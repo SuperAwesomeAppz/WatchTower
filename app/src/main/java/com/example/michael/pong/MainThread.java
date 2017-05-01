@@ -36,7 +36,6 @@ public class MainThread extends Thread
             startTime = System.nanoTime();
             canvas = null;
 
-            //try locking the canvas for pixel editing
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
@@ -74,7 +73,6 @@ public class MainThread extends Thread
                 totalTime = 0;
                 System.out.println(averageFPS);
             }
-            //System.out.println("Here");
         }
     }
     public void setRunning(boolean b)

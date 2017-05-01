@@ -27,8 +27,8 @@ public class Enemy extends GameObject{
 
     public Enemy(Bitmap res, int w, int h, int numFrames, int  xCoord, int yCoord) {
 
-        health = 100;
-        fullHealth = 100;
+        health = 150;
+        fullHealth = health;
         x = xCoord;
         y = yCoord;
         dy = 100;
@@ -61,61 +61,9 @@ public class Enemy extends GameObject{
         }
         animation.update();
 
-        //getCurrentPoint();//constantly check what point each reaper is going for
-
-
-
-       /* if(up){
-            dy = (int)(dya-=1.1);
-
-        }
-        else{
-            dy = (int)(dya+=1.1);
-        }
-
-        if(dy>14)dy = 14;
-        if(dy<-14)dy = -14;
-
-       // y += dy*2;
-        dy = 0;*/
     }
     public void getCurrentPoint()
     {
-        //move from current x,y to point 200,50
-        /*int Xpoints[] = new int[16];
-        Xpoints[0] = 80;
-        Xpoints[1] = 80;
-        Xpoints[2] = 160;
-        Xpoints[3] = 160;
-        Xpoints[4] = 260;
-        Xpoints[5] = 260;
-        Xpoints[6] = 390;
-        Xpoints[7] = 390;
-        Xpoints[8] = 290;
-        Xpoints[9] = 290;
-        Xpoints[10] = 500;
-        Xpoints[11] = 500;
-        Xpoints[12] = 650;
-        Xpoints[13] = 650;
-        Xpoints[14] = 900;
-        Xpoints[15] = 950;
-        int Ypoints[] = new int[16];
-        Ypoints[0] = 200;
-        Ypoints[1] = 60;
-        Ypoints[2] = 60;
-        Ypoints[3] = 240;
-        Ypoints[4] = 240;
-        Ypoints[5] = 400;
-        Ypoints[6] = 400;
-        Ypoints[7] = 110;
-        Ypoints[8] = 110;
-        Ypoints[9] = 40;
-        Ypoints[10] = 40;
-        Ypoints[11] = 300;
-        Ypoints[12] = 300;
-        Ypoints[13] = 180;
-        Ypoints[14] = 180;
-        Ypoints[15] = 180;*/
         int Xpoints[] = new int[16];
         Xpoints[0] = 143;
         Xpoints[1] = 139;
@@ -168,21 +116,6 @@ public class Enemy extends GameObject{
             y += speed * Math.sin(angle);
         }
 
-        /*if(x > (Xpoints[countX] -5) && x < (Xpoints[countX] + 5) && y > (Ypoints[countY] -5) && y < (Ypoints[countY] + 5)) {
-            countX++;
-            countY++;
-            for(int i = 0; i < 7;i++) {
-
-                if (countX == pointsEast[i]) {
-                    System.out.println("oh shit waddup");
-                    this.animation.setDirection("east");
-                }
-                else
-                    this.animation.setDirection("south");
-                    //System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-            }
-            //System.out.println("MATCH!!!    " + countX);
-        }*/
         if(x > (Xpoints[countX] -5) && x < (Xpoints[countX] + 5) && y > (Ypoints[countY] -5) && y < (Ypoints[countY] + 5)) {
             countX++;
             countY++;
@@ -213,7 +146,6 @@ public class Enemy extends GameObject{
             }
         Canvas canvas = new Canvas();
         if(countX == 1) {
-            //System.out.print("Here");
             canvas.rotate(90, x + (115 / 2), y + (160 / 2));
         }
 
@@ -230,7 +162,6 @@ public class Enemy extends GameObject{
     {
         if(health <= 0) {
             dead = true;
-            //System.out.println("Dead!!!!!!!!!!!!!!!!!!!!!!!!");
             return dead;
         }
             else
@@ -256,7 +187,7 @@ public class Enemy extends GameObject{
         return fullHealth;
     }
     public void addHealth(int newHealth) {
-        health += newHealth;
+        health = health + newHealth;
         fullHealth = health;
     }
     public void kill(){ health = 0;}
