@@ -48,7 +48,7 @@ public class ScoreBoard extends Activity {
     }
 
     public ScoreBoard(String name, int score) {
-        super();
+        //super();
         this.name = name;
         this.score = score;
     }
@@ -106,8 +106,11 @@ public class ScoreBoard extends Activity {
                 // get all books
                 List<ScoreBoard> list = db.getAllScores();
 
-
-
+                for(int i =0; i < list.size(); i++)
+                {
+                    System.out.println(list.get(i).getScore());
+                }
+                System.out.println(list.get(0).getName());
                 for(int i =0; i < list.size(); i++)
                 {
                     arrayAdapter.add(list.get(i).toString());

@@ -1,7 +1,7 @@
 package com.example.michael.pong;
 
 /**
- * Created by Michael on 30/04/2017.
+ * Created by Trevor on 30/04/2017.
  */
 
 import java.util.LinkedList;
@@ -69,13 +69,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, newScore.getName()); // get title
+        values.put(KEY_NAME, newScore.getName());
+        values.put(KEY_SCORE, newScore.getScore());// get title
         //System.out.println("this is the damn name " + newScore.getName() );
 
         // 3. insert
-        db.insert(TABLE_ScoreBoard, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
+        db.insert(TABLE_ScoreBoard, null, values); // key/value -> keys = column names/ values = column values
+
+        //System.out.println(" ^^^^^^^^^^^^^^^^^^ " + db.insert(TABLE_ScoreBoard, // table
+          //      null, //nullColumnHack
+            //    values));
 
         // 4. close
         db.close();
@@ -130,9 +133,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 newScores = new ScoreBoard();
                 newScores.setScore(Integer.parseInt(cursor.getString(0)));
                 newScores.setName(cursor.getString(1));
-                //newScores.getScore();
-                //newScores.getName();
-                // Add book to books
+
                 scores.add(newScores);
             } while (cursor.moveToNext());
         }
