@@ -22,8 +22,6 @@ public class Enemy extends GameObject{
     private int countX = 0;
     private int countY = 0;
     private boolean Finished = false;
-    //private int value1;
-    //private int value2;
 
     public Enemy(Bitmap res, int w, int h, int numFrames, int  xCoord, int yCoord) {
 
@@ -110,7 +108,7 @@ public class Enemy extends GameObject{
         double deltaX =  Xpoints[countX] - sx;//800 - sx;
         double deltaY = Ypoints[countY] - sy;//L - sy;
         double angle = Math.atan2( deltaY, deltaX );
-        int speed = 7;
+        int speed = 9;
         if(Finished != true) {
             x += speed * Math.cos(angle);
             y += speed * Math.sin(angle);
@@ -122,25 +120,21 @@ public class Enemy extends GameObject{
 
             for(int i = 0; i < pointsEast.length;i++) {
                 if (countX == pointsEast[i]) {
-                    System.out.println("going east");
                     this.animation.setDirection("east");
                 }
             }
             for(int i = 0; i < pointsWest.length;i++) {
                 if (countX == pointsWest[i]) {
-                    System.out.println("going west");
                     this.animation.setDirection("west");
                 }
             }
             for(int i = 0; i < pointsNorth.length;i++) {
                 if (countX == pointsNorth[i]) {
-                    System.out.println("going north");
                     this.animation.setDirection("north");
                 }
             }
             for(int i = 0; i < pointsSouth.length;i++) {
                 if (countX == pointsSouth[i]) {
-                    System.out.println("going south");
                     this.animation.setDirection("south");
                 }
             }
@@ -171,11 +165,6 @@ public class Enemy extends GameObject{
     {
         canvas.drawBitmap(animation.getImage(),x,y,null);
     }
-    public int getScore(){return score;}
-    public boolean getPlaying(){return playing;}
-    public void setPlaying(boolean b){playing = b;}
-    public void resetDYA(){dya = 0;}
-    public void resetScore(){score = 0;}
     public int getX(){return x;}
     public int getY(){return y;}
     public int getHealth()

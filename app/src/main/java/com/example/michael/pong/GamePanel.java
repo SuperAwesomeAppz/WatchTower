@@ -16,7 +16,7 @@ import android.view.SurfaceView;
 
 import java.lang.*;
 import java.util.ArrayList;
-
+import java.util.List;
 
 
 public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
@@ -60,7 +60,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
 
     private ArrayList<HealthBar> ArrayOfHealthBars = new ArrayList<HealthBar>();
     public static Canvas canvas;
-    private int [] roundNumber = {12,20,28,36,44,56,68,80,88,100};
+    private int [] roundNumber = {12,20,28,36,44,56,68,80,88,100,1};
 
 
 
@@ -112,8 +112,9 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
         if(event.getAction()==MotionEvent.ACTION_DOWN){
             int touchX = (int)event.getX();
             int touchY = (int)event.getY();
-            int [] spotsX = new int [41];
-            int [] spotsY = new int [41];
+            System.out.println("(" + touchX + "," + touchY + ")");
+            int [] spotsX = new int [45];
+            int [] spotsY = new int [45];
             spotsX[0] = 60; //all possible x and y values for spots where towers can be placed. Each spot has a radius of 70.
             spotsX[1] = 57;
             spotsX[2] = 127;
@@ -155,6 +156,13 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             spotsX[38] = 453;
             spotsX[39] = 594;
             spotsX[40] = 594;
+            spotsX[41] = 1838;
+            spotsX[42] = 1800;
+            spotsX[43] = 1796;
+            spotsX[44] = 1734;
+
+
+
 
             spotsY[0] = 405;
             spotsY[1] = 245;
@@ -197,6 +205,10 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             spotsY[38] = 826;
             spotsY[39] = 830;
             spotsY[40] = 967;
+            spotsY[41] = 312;
+            spotsY[42] = 571;
+            spotsY[43] = 719;
+            spotsY[44] = 855;
 
             int radius = 70;
             boolean checkIfPressedBuy = (Math.pow((touchX - buyTurret.getX() -25 ), 2)) + (Math.pow((touchY - buyTurret.getY() - 25), 2)) < (Math.pow((70), 2));
@@ -403,7 +415,8 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                                     countDead ++;
                                     coins += 20;
                                 }
-                                score += 20;
+                                if(health >= 1)
+                                    score += 20;
 
                                 done = true;
                             }
@@ -476,7 +489,6 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 paint.setColor(Color.RED);
                 canvas.drawText("GAME OVER" , 300, 400, paint);
                 canvas.drawText("Final Score: " + score , 300, 600, paint);
-
              }
 
         }

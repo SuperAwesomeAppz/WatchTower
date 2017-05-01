@@ -8,6 +8,7 @@ import java.util.List;
 
 public class ScoreBoard extends AppCompatActivity{
 
+    DatabaseHelper db = new DatabaseHelper(this);
     TextView textView;
 
     String text = "NAME     SCORE\n";
@@ -19,15 +20,20 @@ public class ScoreBoard extends AppCompatActivity{
 
         textView = (TextView) findViewById(R.id.textView);
 
-        DatabaseHelper db = new DatabaseHelper(this);
 
-        //inserting scores
-        db.addScore(new Score("Michael", 32007));
-        db.addScore(new Score("Daniel", 44382));
-        db.addScore(new Score("Stephen", 11234));
-        db.addScore(new Score("Trevor", 2313));
+        List<Score> scores = db.getAllScores();
 
-        //reading and displaying all scores
+        for(Score s : scores){
+            String log = s.getName() + "     " + s.getScore() + "\n";
+            text = text + log;
+        }
+
+        textView.setText(text);
+    }
+
+    public void addToDB(String name, int score){
+        db.addScore(new Score(name, score));
+
         List<Score> scores = db.getAllScores();
 
         for(Score s : scores){

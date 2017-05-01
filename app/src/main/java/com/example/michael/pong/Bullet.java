@@ -23,9 +23,6 @@ public class Bullet extends GameObject{
     private int countY = 0;
     private boolean Finished = false;
     private Enemy reaper;
-    //private boolean hit = false;
-    //private int value1;
-    //private int value2;
 
     public Bullet(Bitmap res, int w, int h, int numFrames,int  xCoord, int yCoord, int targetX, int targetY, Enemy reaper) {
 
@@ -34,7 +31,6 @@ public class Bullet extends GameObject{
         this.targetX =targetX;
         this.targetY = targetY;
         this.reaper = reaper;
-        //boolean hit = getCurrentPoints();
         y = yCoord;
         dy = 100;
         score = 0;
@@ -66,48 +62,15 @@ public class Bullet extends GameObject{
         }
         animation.update();
 
-        //getCurrentPoint();//constantly check what point each reaper is going for
-
-
-
-       /* if(up){
-            dy = (int)(dya-=1.1);
-
-        }
-        else{
-            dy = (int)(dya+=1.1);
-        }
-
-        if(dy>14)dy = 14;
-        if(dy<-14)dy = -14;
-
-       // y += dy*2;
-        dy = 0;*/
     }
     public boolean getCurrentPoints()
     {
-        //int BastionX = player.getX();
-        //int BastionY = player.getY();
-       // bullet = new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 72, 63, 4, 500, 200);
-        //if (done == true) {
-            //System.out.println("Inside");
-            //final int savedState = canvas.save();
-            //bullet.draw(canvas);
-            //canvas.restoreToCount(savedState);
-            //done = false;
-            //canvas.rotate(90, bullet.getX() + (115 / 2), bullet.getY() + (160 / 2));
-          //  System.out.println("done");
-        //}
-        //bullet.update();
 
         if(this.reaper.isDead() == false) {
             double sx = x;
             double sy = y;
-            int L = GamePanel.HEIGHT / 2;
-            //double deltaX =  this.targetX - sx;//800 - sx;
-            //double deltaY = this.targetY - sy;//L - sy;
-            double deltaX = this.reaper.getX() - sx;//800 - sx;
-            double deltaY = this.reaper.getY() - sy;//L - sy;
+            double deltaX = this.reaper.getX() - sx;
+            double deltaY = this.reaper.getY() - sy;
             double angle = Math.atan2(deltaY, deltaX);
             int speed = 8;
 
@@ -149,11 +112,6 @@ public class Bullet extends GameObject{
             return false;
     }
 
-    public int minusHealth()
-    {
-        health -= 10;
-        return health;
-    }
 
 
     public void draw(Canvas canvas)

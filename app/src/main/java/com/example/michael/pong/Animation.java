@@ -38,30 +38,7 @@ public class Animation {
             currentFrame = 0;
             playedOnce = true;
         }
-        /*if(elapsed>delay && reaper == true)
-        {
-            if(direction.equalsIgnoreCase("east"))
-            {
-                currentFrame++;
-                if(currentFrame >= 4)
-                    currentFrame = 0;
-                startTime = System.nanoTime();
 
-            }
-            if(direction.equalsIgnoreCase("south"))
-            {
-                currentFrame++;
-                if(currentFrame <=4)
-                    currentFrame = 4;
-                if(currentFrame >= 8)
-                    currentFrame = 4;
-                currentFrame++;
-                startTime = System.nanoTime();
-                if(currentFrame == 8)
-                    currentFrame = 4;
-            }
-
-        }*/
         if(elapsed>delay && reaper == true)
         {
             if(direction.equalsIgnoreCase("east"))

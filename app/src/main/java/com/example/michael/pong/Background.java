@@ -24,15 +24,12 @@ public class Background {
     }
     public void draw(Canvas canvas)
     {
-        //System.out.print("hhhhhhhhhhhhhhhhh");
-        //Bitmap scaled = Bitmap.createScaledBitmap(image, 900, 500, true);
         Bitmap scaled = Bitmap.createScaledBitmap(image, 1920, 1080, true);
 
 
         canvas.drawBitmap(scaled, x, y,null);
         if(x<0)
         {
-            //Bitmap resized = Bitmap.createScaledBitmap(image,(int)(image.getWidth()), (int)(image.getHeight()), true);
             canvas.drawBitmap(image, x+GamePanel.WIDTH, y, null);
         }
     }
