@@ -39,13 +39,14 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
     private Bullet bullet;
     private boolean selectingTower = false;
     private boolean upgradingTower = false;
-    private int coins = 35000;
+    private boolean wonGame = false;
+    private int coins = 350;
     private int score = 0;
     private int health = 5000;
     private int upgradeCost;
     private int countDead = 0;
     private int round = 0;
-    private int roundCount = 6;
+    private int roundCount = 0;
     private int targetX = 1;
     private int targetY= 1;
     private int b = 500;
@@ -308,6 +309,8 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             countDead = 1;
             roundCount++;
             round++;
+            if(roundCount == 10)
+                wonGame = true;
             //ArrayOfBullets.clear();
             ArrayOfReapers.clear();
         }
@@ -486,7 +489,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             paint.setTextSize(80);
             canvas.drawText("Gold: " + String.valueOf(coins), 700, 80, paint);
             canvas.restoreToCount(savedState);
-            if(health <= 0 || roundCount == 10) {
+            if(health <= 0 || wonGame == true) {
                 canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.MULTIPLY);
                 paint.setTextSize(200);
                 paint.setColor(Color.RED);
