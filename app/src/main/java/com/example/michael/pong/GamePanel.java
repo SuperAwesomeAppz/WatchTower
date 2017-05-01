@@ -242,6 +242,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                     upgradeYValue = arrayOfTowers.get(i).getY() + 110 ;
                     upgradeTower = new button(BitmapFactory.decodeResource(getResources(), R.drawable.upgradetower), arrayOfTowers.get(i).getX()-120, arrayOfTowers.get(i).getY() + 110);
                     upgradeCost = arrayOfTowers.get(i).getCost();
+                    arrayOfTowers.get(i).setRadius(60);
                     upgradingTower = true;
 
                 }
@@ -497,7 +498,7 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 ArrayOfHealthBars.clear();
                 arrayOfTowers.clear();
                 canvas.drawText("GAME OVER" , 300, 400, paint);
-                canvas.drawText("Final Score: " + score , 300, 600, paint);
+                canvas.drawText("Final Score: " + score , 200, 600, paint);
              }
 
         }

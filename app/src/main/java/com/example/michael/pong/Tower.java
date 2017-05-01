@@ -90,6 +90,7 @@ public class Tower extends GameObject{
         return cost;
     }
     public int getRadius(){return radius;}
+    public void setRadius(int newRadius){radius = newRadius + radius;}
     public int getX(){return x;}
     public int getY(){return y;}
     public void resetDYA(){dya = 0;}
