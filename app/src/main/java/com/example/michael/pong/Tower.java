@@ -66,8 +66,6 @@ public class Tower extends GameObject{
 
     public void update()
     {
-        //GamePanel ll = new GamePanel(context);
-        //GamePanel.updateBastion();
         long elapsed = (System.nanoTime()-startTime)/1000000;
         if(elapsed>100)
         {

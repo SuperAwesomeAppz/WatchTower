@@ -73,7 +73,7 @@ public class MainMenu extends Activity {
     public void profile()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
+        builder.setTitle("Enter Your Name:");
 
         // Set up the input
         final EditText input = new EditText(this);
