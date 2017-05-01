@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -21,8 +20,7 @@ import java.util.List;
 
 public class MainMenu extends Activity {
 
-    private String userName = "";
-    private boolean canPlay = false;
+    private String m_Text = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +48,8 @@ public class MainMenu extends Activity {
 
         switch (view.getId()) {
             case R.id.button_play: {
-                if(canPlay == true) {
-                    Intent intent = new Intent(this.getString(R.string.CUSTOM_ACTION_PLAYBUTTON));
-                    startActivity(intent);
-                }
-                else
-                    Toast.makeText(getApplicationContext(), "You have to enter a name in 'profile' to play a game", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this.getString(R.string.CUSTOM_ACTION_PLAYBUTTON));
+                startActivity(intent);
                 break;
             }
             case R.id.button_score: {
@@ -77,6 +71,7 @@ public class MainMenu extends Activity {
 
         // Set up the input
         final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         builder.setView(input);
 
@@ -84,11 +79,7 @@ public class MainMenu extends Activity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                userName = input.getText().toString();
-                if(userName.length() >= 4)
-                    canPlay =true;
-                else
-                    Toast.makeText(getApplicationContext(), "Username must be at least 4 characters in length", Toast.LENGTH_SHORT).show();
+                m_Text = input.getText().toString();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -99,9 +90,5 @@ public class MainMenu extends Activity {
         });
 
         builder.show();
-    }
-    public String getUserName()
-    {
-        return userName;
     }
 }

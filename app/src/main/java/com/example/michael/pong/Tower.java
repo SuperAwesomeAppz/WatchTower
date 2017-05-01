@@ -76,7 +76,36 @@ public class Tower extends GameObject{
         }
         animation.update();
 
+
+
+        //canvas.save();
+        //canvas.rotate(45, x + (111 / 2), y + (158 / 2));
+        //canvas.drawBitmap((BitmapFactory.decodeResource(getResources(), R.drawable.Tower)), 10, 5, null);
+        //canvas.restore();
+
+
+
+       /* if(up){
+            dy = (int)(dya-=1.1);
+
+        }
+        else{
+            dy = (int)(dya+=1.1);
+        }
+
+        if(dy>14)dy = 14;
+        if(dy<-14)dy = -14;
+
+       // y += dy*2;
+        dy = 0;*/
     }
+
+
+
+
+
+
+
     public void draw(Canvas canvas)
     {
         canvas.drawBitmap(animation.getImage(),x,y,null);
