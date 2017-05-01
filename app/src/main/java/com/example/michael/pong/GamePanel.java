@@ -545,7 +545,6 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
                 //bullet.draw(canvas);
                 //canvas.drawColor(0, PorterDuff.Mode.CLEAR);
             }
-
             Paint paint = new Paint();
             paint.setColor(Color.RED);
             paint.setTextSize(100);
@@ -568,10 +567,9 @@ public class GamePanel extends SurfaceView  implements SurfaceHolder.Callback
             {
                 darken.draw(canvas);
                 resumeGame.draw(canvas);
-                exitToMain.draw(canvas);
+                //exitToMain.draw(canvas);
             }
         }
-
     }
     private void exit()
     {
