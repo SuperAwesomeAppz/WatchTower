@@ -6,10 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class ScoreBoard extends Activity {
     private String name;
@@ -50,7 +57,7 @@ public class ScoreBoard extends Activity {
 
     @Override
     public String toString() {
-        return "ScoreBoard [id=" + name;
+        return "Player name: " + this.name;
     }
 
     public int getScore() {
@@ -75,30 +82,52 @@ public class ScoreBoard extends Activity {
 
         switch (view.getId()) {
             case R.id.button_input: {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Title");
 
-                // Set up the input
-                final EditText input = new EditText(this);
-                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-                builder.setView(input);
+                AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+                builderSingle.setIcon(R.drawable.buy);
+                builderSingle.setTitle("Select One Name:-");
 
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_singlechoice);
+
+                /*MySQLiteHelper board = new MySQLiteHelper(this);
+                List<ScoreBoard> scores = new LinkedList<ScoreBoard>();
+                board.addScore(new ScoreBoard("Trevor", 50));
+                //board.getScore(1);
+                scores = board.getAllScores();
+
+                //arrayAdapter.add(board.getScore(1).toString());
+                System.out.println(scores.size());*/
+                MySQLiteHelper db = new MySQLiteHelper(this);
+
+                db.addScore(new ScoreBoard("trevor", 5000));
+                //db.addScore(new Book("Android Programming: The Big Nerd Ranch Guide", "Bill Phillips and Brian Hardy"));
+                //db.addScore(new Book("Learn Android App Development", "Wallace Jackson"));
+
+                // get all books
+                List<ScoreBoard> list = db.getAllScores();
+
+
+
+                for(int i =0; i < list.size(); i++)
+                {
+                    arrayAdapter.add(list.get(i).toString());
+                }
+                builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        m_Text = input.getText().toString();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                        dialog.dismiss();
                     }
                 });
 
-                builder.show();
+                builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = arrayAdapter.getItem(which);
+                        Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builderSingle.show();
+
                 break;
             }
         }

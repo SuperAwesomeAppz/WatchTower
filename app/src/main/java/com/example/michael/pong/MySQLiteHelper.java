@@ -18,8 +18,9 @@ import android.util.Log;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
+    List<ScoreBoard> scores = new LinkedList<ScoreBoard>();
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     // Database Name
     private static final String DATABASE_NAME = "ScoreBoardDB";
 
@@ -69,6 +70,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, newScore.getName()); // get title
+        //System.out.println("this is the damn name " + newScore.getName() );
 
         // 3. insert
         db.insert(TABLE_ScoreBoard, // table
@@ -88,7 +90,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Cursor cursor =
                 db.query(TABLE_ScoreBoard, // a. table
                         COLUMNS, // b. column names
-                        " id = ?", // c. selections
+                        " Score = ?", // c. selections
                         new String[] { String.valueOf(id) }, // d. selections args
                         null, // e. group by
                         null, // f. having
@@ -112,7 +114,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Get All Books
     public List<ScoreBoard> getAllScores() {
-        List<ScoreBoard> scores = new LinkedList<ScoreBoard>();
+
 
         // 1. build the query
         String query = "SELECT  * FROM " + TABLE_ScoreBoard;
@@ -128,7 +130,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 newScores = new ScoreBoard();
                 newScores.setScore(Integer.parseInt(cursor.getString(0)));
                 newScores.setName(cursor.getString(1));
-
+                //newScores.getScore();
+                //newScores.getName();
                 // Add book to books
                 scores.add(newScores);
             } while (cursor.moveToNext());
@@ -140,44 +143,5 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return scores;
     }
 
-    // Updating single scoreBoard
-    public int updateBook(ScoreBoard scoreBoard) {
 
-        // 1. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
-        values.put("NAME", scoreBoard.getName()); // get title
-
-        // 3. updating row
-        int i = db.update(TABLE_ScoreBoard, //table
-                values, // column/value
-                KEY_SCORE+" = ?", // selections
-                new String[] { String.valueOf(scoreBoard.getScore()) }); //selection args
-
-        // 4. close
-        db.close();
-
-        return i;
-
-    }
-
-    // Deleting single scoreBoard
-    public void deleteBook(ScoreBoard scoreBoard) {
-
-        // 1. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // 2. delete
-        db.delete(TABLE_ScoreBoard,
-                KEY_SCORE+" = ?",
-                new String[] { String.valueOf(scoreBoard.getScore()) });
-
-        // 3. close
-        db.close();
-
-        Log.d("deleteBok", scoreBoard.toString());
-
-    }
 }
