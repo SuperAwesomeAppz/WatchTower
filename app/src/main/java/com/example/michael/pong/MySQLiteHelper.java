@@ -19,7 +19,7 @@ import android.util.Log;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     // Database Name
     private static final String DATABASE_NAME = "ScoreBoardDB";
 
@@ -31,9 +31,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // SQL statement to create ScoreBoard table
         String CREATE_ScoreBoard_TABLE = "CREATE TABLE ScoreBoard ( " +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "title TEXT, "+
-                "author TEXT )";
+                "score INTEGER PRIMARY KEY, " +
+                "name TEXT  )";
 
         // create ScoreBoard table
         db.execSQL(CREATE_ScoreBoard_TABLE);
@@ -149,7 +148,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
-        values.put("name", scoreBoard.getName()); // get title
+        values.put("NAME", scoreBoard.getName()); // get title
 
         // 3. updating row
         int i = db.update(TABLE_ScoreBoard, //table
@@ -178,7 +177,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 3. close
         db.close();
 
-        Log.d("deleteBook", scoreBoard.toString());
+        Log.d("deleteBok", scoreBoard.toString());
 
     }
 }
